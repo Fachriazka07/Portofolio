@@ -1,0 +1,119 @@
+/* Portfolio Tabs styling (uses Radix Tabs primitives) */
+
+:root {
+  --tab-bg: rgba(20, 22, 34, 0.6);
+  --tab-border: rgba(255, 255, 255, 0.08);
+  --tab-hover-bg: rgba(255, 255, 255, 0.06);
+  --tab-active-bg: rgba(255, 255, 255, 0.10);
+  --tab-shadow-purple: 0 14px 40px rgba(108, 99, 255, 0.25);
+  --tab-shadow-lime: 0 14px 40px rgba(182, 245, 0, 0.25);
+  --tab-shadow-cyan: 0 14px 40px rgba(0, 198, 255, 0.25);
+}
+
+.portfolio-tabs {
+  width: 100%;
+  max-width: 72rem; /* ~max-w-6xl */
+  height: 92px; /* sedikit lebih tinggi */
+  border-radius: 24px;
+  padding: 10px;
+  border: 1px solid var(--tab-border);
+  background: rgba(16, 18, 28, 0.35);
+  backdrop-filter: saturate(140%) blur(12px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 24px 60px rgba(108,99,255,0.10);
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.portfolio-tab-trigger {
+  flex: 1 1 0;
+  height: 78px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  color: #e5e7eb; /* light gray */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 300ms cubic-bezier(0.22,1,0.36,1),
+              background-color 300ms cubic-bezier(0.22,1,0.36,1),
+              box-shadow 300ms cubic-bezier(0.22,1,0.36,1),
+              border-color 300ms cubic-bezier(0.22,1,0.36,1),
+              color 300ms cubic-bezier(0.22,1,0.36,1);
+  background: transparent;
+}
+
+.portfolio-tab-trigger:hover {
+  background: var(--tab-hover-bg);
+  border-color: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
+}
+
+.portfolio-tab-trigger[data-state="active"] {
+  background: var(--tab-active-bg);
+  color: #fff;
+}
+
+/* Shadow warna berbeda untuk setiap trigger, ditentukan via data-variant */
+.portfolio-tab-trigger[data-variant="purple"][data-state="active"] {
+  box-shadow: var(--tab-shadow-purple);
+}
+.portfolio-tab-trigger[data-variant="lime"][data-state="active"] {
+  box-shadow: var(--tab-shadow-lime);
+}
+.portfolio-tab-trigger[data-variant="cyan"][data-state="active"] {
+  box-shadow: var(--tab-shadow-cyan);
+}
+
+.tab-content-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tab-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.95;
+  width: 48px;
+  height: 26px;
+}
+
+.tab-label {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* animasi klik/aktif pada trigger */
+@keyframes selected-pop {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-2px) scale(0.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+.portfolio-tab-trigger[data-state="active"] {
+  animation: selected-pop 240ms ease;
+}
+
+/* animasi perpindahan konten antar menu */
+.tabs-content-anim { opacity: 0; transform: translateY(10px); transition: opacity 350ms ease, transform 350ms ease; }
+.tabs-content-anim[data-state="active"] { opacity: 1; transform: translateY(0); }
+
+/* Light mode tuning */
+@media (prefers-color-scheme: light) {
+  .portfolio-tabs {
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-color: rgba(0,0,0,0.06);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), 0 16px 40px rgba(0,0,0,0.08);
+  }
+  .portfolio-tab-trigger { color: #111827; }
+  .portfolio-tab-trigger:hover { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); }
+  .portfolio-tab-trigger[data-state="active"] { background: rgba(0,0,0,0.06); color: #0f172a; }
+}
+
+@media (max-width: 640px) {
+  .portfolio-tabs { height: 80px; }
+  .portfolio-tab-trigger { height: 62px; }
+  .tab-label { font-size: 0.9rem; }
+}

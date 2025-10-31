@@ -1,0 +1,47 @@
+/* Qualifications cards — gradient border, translucent background, subtle grid overlay */
+.qual-card {
+  position: relative;
+  height: 100%;
+  min-height: 320px;
+  border-radius: 18px;
+  border: 2px solid transparent;
+  background: linear-gradient(var(--panel-bg, rgba(255,255,255,0.02)), var(--panel-bg, rgba(255,255,255,0.02))) padding-box,
+              linear-gradient(135deg, #6C63FF, #00C6FF) border-box;
+  box-shadow: 0 6px 30px rgba(108, 99, 255, 0.12);
+  overflow: hidden;
+}
+
+@media (prefers-color-scheme: light) {
+  .qual-card { --panel-bg: rgba(255,255,255,0.65); }
+}
+
+.qual-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(108,99,255,0.10) 1px, transparent 1px),
+    radial-gradient(circle at 1px 1px, rgba(0,198,255,0.08) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.qual-header { padding: 20px 24px 0 24px; }
+.qual-title { display: flex; align-items: center; gap: 10px; font-size: 20px; }
+.qual-title-icon { display: inline-grid; place-items: center; }
+
+/* Timeline list with gradient bullets and a faint guiding line */
+.timeline-list { position: relative; list-style: none; margin: 0; padding: 24px 24px 24px 28px; }
+.timeline-list::after { content: ""; position: absolute; left: 16px; top: 28px; bottom: 24px; width: 2px; background: linear-gradient(180deg, rgba(108,99,255,0.35), rgba(0,198,255,0.25)); border-radius: 999px; }
+
+.timeline-list li { position: relative; padding-left: 18px; margin-bottom: 18px; }
+.timeline-list li::before { content: ""; position: absolute; left: -2px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: linear-gradient(135deg, #6C63FF, #00C6FF); box-shadow: 0 0 12px rgba(108,99,255,0.35); }
+
+.item-title { color: #0f172a; font-weight: 600; }
+.item-sub { color: #64748b; font-size: 14px; }
+
+@media (prefers-color-scheme: dark) {
+  .item-title { color: #fff; }
+  .item-sub { color: #cbd5e1; }
+}
