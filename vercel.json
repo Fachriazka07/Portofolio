@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/api/send-wa",
-      "destination": "/backend/api/send-wa.js"
-    }
-  ]
-}
