@@ -1,7 +1,7 @@
-import axios from 'axios';
+const axios = require('axios');
 
 // Backend Serverless Function for Vercel
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
