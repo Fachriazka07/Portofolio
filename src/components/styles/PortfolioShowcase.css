@@ -1,0 +1,237 @@
+/* Spacing dan styling khusus untuk area Projects */
+
+.project-card {
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  /* Ensure clipping works with transforms */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  mask-image: radial-gradient(white, black);
+}
+
+.projects-actions {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 48px; /* sebelumnya pt-12 (48px) */
+}
+
+/* Custom gap spacing controlled by CSS */
+.tab-content-area {
+  margin-top: 40px !important; /* Jarak bebas diatur di sini */
+}
+
+.see-more-btn {
+  position: relative;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  /* Gradient outline using layered backgrounds */
+  background: linear-gradient(#0f0f1a, #0f0f1a) padding-box,
+              linear-gradient(135deg, #6C63FF, #00C6FF) border-box;
+  color: #ffffff;
+  padding: 10px 16px;
+  transition: filter 200ms ease, transform 150ms ease;
+}
+
+.see-more-btn:hover {
+  filter: brightness(1.1) saturate(1.05);
+}
+
+.see-more-btn:active {
+  transform: translateY(1px);
+}
+
+@media (prefers-color-scheme: light) {
+  .see-more-btn {
+    color: #111827;
+    background: linear-gradient(#ffffff, #ffffff) padding-box,
+                linear-gradient(135deg, #6C63FF, #00C6FF) border-box;
+  }
+}
+
+/* Qualifications cards — gradient border, translucent background, subtle grid overlay */
+.qual-card {
+  position: relative;
+}
+
+/* Enforce grid gap via CSS to ensure consistency */
+.projects-grid {
+  display: grid;
+  gap: 40px !important;
+}
+
+.qualifications-grid {
+  display: grid;
+  gap: 48px !important;
+}
+
+/* Qualifications Timeline Spacing */
+.qual-content-area {
+  padding-top: 0 !important;
+  padding-bottom: 20px !important;
+}
+
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px !important;
+}
+
+.timeline-item-title {
+  margin-bottom: 5px !important;
+}
+
+/* Tech Stack Styling */
+.tech-section-title {
+  margin-bottom: 10px !important;
+}
+
+.tech-category-section {
+  margin-bottom: 22px !important;
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+@media (min-width: 640px) {
+  .tech-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .tech-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.tech-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  
+  /* Light Mode Styles (Default) - Clean & Modern */
+  background: #ffffff;
+  border: 1px solid #e2e8f0; /* Border halus abu-abu muda */
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); /* Shadow sangat lembut */
+}
+
+.tech-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08); /* Shadow lebih dalam saat hover */
+  border-color: #6C63FF; /* Aksen ungu saat hover */
+}
+
+/* Dark Mode Overrides - Hanya aktif jika website dalam mode Dark */
+:root[class~="dark"] .tech-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+:root[class~="dark"] .tech-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(182, 245, 0, 0.5); /* Aksen Lime */
+  box-shadow: 0 0 20px rgba(182, 245, 0, 0.1);
+}
+
+.tech-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  margin-bottom: 20px; /* Gap 10 between icon and text (adjusted visually) */
+  /* Light mode styles - Purple Glow */
+  background: #f8fafc; /* Slate-50 */
+  border: 1px solid #e2e8f0; 
+  box-shadow: 0 0 15px rgba(108, 99, 255, 0.15); /* Ungu neon glow lembut */
+}
+
+/* Hover effect untuk icon wrapper di light mode */
+.tech-card:hover .tech-icon-wrapper {
+  box-shadow: 0 0 20px rgba(108, 99, 255, 0.25); /* Glow ungu lebih kuat saat hover */
+  border-color: rgba(108, 99, 255, 0.3);
+}
+
+:root[class~="dark"] .tech-icon-wrapper {
+  background: transparent;
+  border: none;
+  box-shadow: 0 0 20px rgba(182, 245, 0, 0.15); /* Subtle lime glow */
+}
+
+
+.tech-name {
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 600; /* Lebih tebal sedikit agar terbaca */
+  color: #111827; /* gray-900 - hitam pekat agar kontras */
+  transition: color 0.2s;
+}
+
+:root[class~="dark"] .tech-name {
+  color: #d1d5db; /* gray-300 */
+}
+
+.tech-card:hover .tech-name {
+  color: #6C63FF; /* Ungu neon saat hover di light mode */
+}
+
+:root[class~="dark"] .tech-card:hover .tech-name {
+  color: #B6F500;
+}
+
+
+/* Spacing khusus halaman AllProjects.tsx */
+.all-projects-spacer {
+  padding-top: 180px !important; /* Jarak aman dari navbar fixed */
+  padding-bottom: 120px !important; /* Jarak aman dari footer */
+}
+
+.ps-decorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.ps-shape {
+  position: absolute;
+  border-radius: 16px;
+  opacity: 0.35;
+  filter: drop-shadow(0 0 12px rgba(0, 0, 0, 0.2));
+  will-change: transform;
+}
+
+:root:not(.dark) .ps-shape {
+  opacity: 0.55;
+}
+
+.ps-purple {
+  background: rgba(108, 99, 255, 0.25);
+  box-shadow: 0 0 24px rgba(108, 99, 255, 0.35);
+}
+
+.ps-cyan {
+  background: rgba(0, 198, 255, 0.22);
+  box-shadow: 0 0 24px rgba(0, 198, 255, 0.3);
+}
+
+.ps-lime {
+  background: rgba(182, 245, 0, 0.22);
+  box-shadow: 0 0 24px rgba(182, 245, 0, 0.3);
+}
+
+.ps-yellow {
+  background: rgba(255, 200, 87, 0.3);
+  box-shadow: 0 0 24px rgba(255, 200, 87, 0.4);
+}

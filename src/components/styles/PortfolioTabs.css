@@ -1,0 +1,185 @@
+/* Portfolio Tabs styling (uses Radix Tabs primitives) */
+
+/* Base Layout (Shared Styles) */
+.portfolio-tabs {
+  width: 100%;
+  max-width: 72rem; /* ~max-w-6xl */
+  height: 92px; /* sedikit lebih tinggi */
+  border-radius: 24px;
+  padding: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.portfolio-tab-trigger {
+  flex: 1 1 0;
+  height: 78px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: transform 300ms cubic-bezier(0.22,1,0.36,1),
+              background-color 300ms cubic-bezier(0.22,1,0.36,1),
+              box-shadow 300ms cubic-bezier(0.22,1,0.36,1),
+              border-color 300ms cubic-bezier(0.22,1,0.36,1),
+              color 300ms cubic-bezier(0.22,1,0.36,1);
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+.tab-content-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tab-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.95;
+  width: 48px;
+  height: 26px;
+}
+
+.tab-label {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* Animations */
+@keyframes selected-pop {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-2px) scale(0.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.portfolio-tab-trigger[data-state="active"] {
+  animation: selected-pop 240ms ease;
+}
+
+.tabs-content-anim { 
+  opacity: 0; 
+  transform: translateY(10px); 
+  transition: opacity 350ms ease, transform 350ms ease; 
+}
+
+.tabs-content-anim[data-state="active"] { 
+  opacity: 1; 
+  transform: translateY(0); 
+}
+
+/* =========================================
+   LIGHT MODE STYLES (DEFAULT)
+   Clean, Modern, White Theme
+   ========================================= */
+.portfolio-tabs {
+  background: #ffffff;
+  border: 1px solid #e2e8f0; /* Slate-200 */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.portfolio-tab-trigger {
+  color: #64748b; /* Slate-500 */
+  font-weight: 500;
+}
+
+.portfolio-tab-trigger:hover {
+  background: #f8fafc; /* Slate-50 */
+  color: #0f172a; /* Slate-900 */
+}
+
+.portfolio-tab-trigger[data-state="active"] {
+  color: #0f172a; /* Slate-900 */
+  font-weight: 600;
+  /* border: 1px solid rgba(108, 99, 255, 0.1); */
+  /* background: rgba(108, 99, 255, 0.03); */
+}
+
+/* Indicator Light Mode */
+.tabs-active-indicator {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  border-radius: 14px;
+  z-index: 0;
+  box-shadow: 0 2px 10px rgba(108, 99, 255, 0.15);
+  pointer-events: none;
+}
+
+/* =========================================
+   DARK MODE STYLES
+   Deep, Neon, Cyber Theme
+   ========================================= */
+.dark .portfolio-tabs {
+  background: rgba(30, 30, 46, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.dark .portfolio-tab-trigger {
+  color: #94a3b8; /* Slate-400 */
+}
+
+.dark .portfolio-tab-trigger:hover {
+  background: rgba(255, 255, 255, 0.03);
+  color: #f8fafc; /* Slate-50 */
+}
+
+.dark .portfolio-tab-trigger[data-state="active"] {
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive Styles for Mobile */
+@media (max-width: 640px) {
+  .portfolio-tabs {
+    height: auto;
+    min-height: 80px;
+    padding: 6px;
+    gap: 6px;
+    overflow-x: auto; /* Allow scrolling if needed */
+    justify-content: space-between; /* Try to fit */
+  }
+
+  .portfolio-tab-trigger {
+    height: auto;
+    padding: 12px 4px;
+    flex-direction: column; /* Stack icon and text to save width */
+    gap: 4px;
+    min-width: 80px;
+  }
+
+  .tab-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 2px;
+  }
+  
+  .tab-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .tab-label {
+    font-size: 0.75rem; /* Smaller text */
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  /* Adjust indicator for new layout */
+  .tabs-active-indicator {
+    top: 6px;
+    bottom: 6px;
+    border-radius: 12px;
+  }
+}

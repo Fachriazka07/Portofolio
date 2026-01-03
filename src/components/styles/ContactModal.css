@@ -1,0 +1,136 @@
+/* ContactModal.css */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 32px 32px 32px 32px;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  width: 280px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 40px; /* Space for the floating icon */
+}
+
+/* Dark mode support for modal content */
+.dark .modal-content {
+  background-color: #1e1e2f;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.modal-icon-wrapper {
+  position: absolute;
+  top: -48px; /* Half of height (96px/2) */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 8px solid #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  z-index: 10;
+}
+
+.dark .modal-icon-wrapper {
+  border-color: #1e1e2f;
+}
+
+.modal-icon-wrapper.success {
+  background-color: #58cc02;
+}
+
+.modal-icon-wrapper.error {
+  background-color: #ef4444;
+}
+
+.modal-body {
+  margin-top: 32px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: #111827;
+  margin-bottom: 12px;
+}
+
+.dark .modal-title {
+  color: #ffffff;
+}
+
+.modal-message {
+  font-size: 15px;
+  font-weight: 600;
+  color: #4b5563;
+  line-height: 1.4;
+  margin-bottom: 24px;
+  padding: 0 8px;
+}
+
+.dark .modal-message {
+  color: #d1d5db;
+}
+
+.modal-button {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 16px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.025em;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.modal-button:hover {
+  transform: translateY(-2px);
+}
+
+.modal-button:active {
+  transform: translateY(0);
+}
+
+.modal-button.success {
+  background-color: #58cc02;
+  box-shadow: 0 10px 15px -3px rgba(88, 204, 2, 0.4);
+}
+
+.modal-button.success:hover {
+  background-color: #4ab802;
+}
+
+.modal-button.error {
+  background-color: #ef4444;
+  box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.4);
+}
+
+.modal-button.error:hover {
+  background-color: #dc2626;
+}

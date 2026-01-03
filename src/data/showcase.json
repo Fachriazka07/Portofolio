@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "judul": "Iphonify",
+    "paragraf": "Iphonify is an e-commerce platform focused on selling Apple products with a clean and premium user interface.",
+      "bannerImage": "/src/assets/bannerImage/bannerIphonify.webp",
+      "aspect": "portrait",
+      "techStack": ["HTML", "CSS", "PHP", "MySQL", "Midtrans"],
+      "linkGithub": "https://github.com/Fachriazka07/E-commerce-website-EasyBreezy",
+      "category": "website",
+    "demo": ""
+  },
+  {
+    "id": 2,
+    "judul": "EasyBreezy",
+    "paragraf": "A casual fashion e-commerce website designed to showcase clothing products with a clean layout and modern visual presentation.",
+    "bannerImage": "/src/assets/bannerImage/bannerEasyBreezy.png",
+    "techStack": ["HTML", "CSS", "PHP", "MySQL", "Midtrans"],
+    "linkGithub": "https://github.com/Fachriazka07/cinema-ticket",
+    "category": "desktop"
+  },
+  {
+    "id": 3,
+    "judul": "Zendo",
+    "paragraf": "A mobile Pomodoro application designed to enhance productivity through focused work sessions, featuring lofi music, ambient sounds, and multiple visual themes.",
+    "bannerImage": "/src/assets/bannerImage/bannerZendo.webp",
+    "techStack": ["Flutter", "Dart"],
+    "category": "web"
+  }
+]
