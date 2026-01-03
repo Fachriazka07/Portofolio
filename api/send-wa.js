@@ -60,44 +60,42 @@ ${message}
     };
 
     // Ganti domain sesuai server Wablas user (misal: https://bdg.wablas.com)
-    const response = await axios.post('https://bdg.wablas.com/api/send-message', payload, {
+    const wablasResponse = await fetch('https://bdg.wablas.com/api/send-message', {
+      method: 'POST',
       headers: {
         'Authorization': process.env.WABLAS_API_KEY,
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify(payload)
     });
+
+    const responseData = await wablasResponse.json();
 
     // Wablas API biasanya mengembalikan status true/false di dalam data
     console.log('--- Wablas Response ---');
-    console.log('Status:', response.status);
-    console.log('Data:', JSON.stringify(response.data, null, 2));
+    console.log('Status:', wablasResponse.status);
+    console.log('Data:', JSON.stringify(responseData, null, 2));
 
-    if (response.data.status) {
+    if (responseData.status) {
       res.status(200).json({
         success: true,
-        data: response.data
+        data: responseData
       });
     } else {
-      console.error('Wablas Error:', response.data);
+      console.error('Wablas Error:', responseData);
       res.status(500).json({
         success: false,
         message: 'Failed to send WhatsApp message',
-        details: response.data
+        details: responseData
       });
     }
 
   } catch (error) {
     console.error('Server Error:', error.message);
-    if (error.response) {
-        console.error('Wablas Error Response:', error.response.data);
-        console.error('Status:', error.response.status);
-        console.error('Headers:', error.response.headers);
-    }
     res.status(500).json({
       success: false,
       message: 'Internal server error',
-      error: error.message,
-      details: error.response ? error.response.data : null
+      error: error.message
     });
   }
-}
+};
