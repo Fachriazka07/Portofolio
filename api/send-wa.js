@@ -1,4 +1,6 @@
 // Backend Serverless Function for Vercel
+const axios = require('axios');
+
 module.exports = async (req, res) => {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -49,55 +51,58 @@ module.exports = async (req, res) => {
 ${message}
     `.trim();
 
+    // Use ENV secret or fallback to hardcoded one
+    const secretKey = process.env.WABLAS_SECRET || 'rzN3WXD8';
+
     const payload = {
       phone: process.env.WA_TARGET,
       message: formattedMessage,
-      secret: process.env.WABLAS_SECRET, // Secret Key untuk bypass IP Whitelist (Wajib ada di ENV Vercel)
+      secret: secretKey,
       retry: false,
       isGroup: false,
     };
 
-    // Ganti domain sesuai server Wablas user (misal: https://bdg.wablas.com)
-    // Pastikan domain Wablas Anda benar (misal: bdg.wablas.com, solo.wablas.com, dll)
-    // Tambahkan secret ke Query Param untuk bypass IP Whitelist
-    const wablasUrl = `https://bdg.wablas.com/api/send-message?secret=${process.env.WABLAS_SECRET}`;
+    // Append secret to URL for IP Whitelist bypass
+    const wablasUrl = `https://bdg.wablas.com/api/send-message?secret=${secretKey}`;
     
-    const wablasResponse = await fetch(wablasUrl, {
-      method: 'POST',
+    console.log('Sending to Wablas URL:', wablasUrl);
+
+    const response = await axios.post(wablasUrl, payload, {
       headers: {
         'Authorization': process.env.WABLAS_API_KEY,
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
+      }
     });
 
-    const responseData = await wablasResponse.json();
-
-    // Wablas API biasanya mengembalikan status true/false di dalam data
     console.log('--- Wablas Response ---');
-    console.log('Status:', wablasResponse.status);
-    console.log('Data:', JSON.stringify(responseData, null, 2));
+    console.log('Status:', response.status);
+    console.log('Data:', response.data);
 
-    if (responseData.status) {
+    if (response.data.status) {
       res.status(200).json({
         success: true,
-        data: responseData
+        data: response.data
       });
     } else {
-      console.error('Wablas Error:', responseData);
+      console.error('Wablas Error Data:', response.data);
       res.status(500).json({
         success: false,
         message: 'Failed to send WhatsApp message',
-        details: responseData
+        details: response.data
       });
     }
 
   } catch (error) {
     console.error('Server Error:', error.message);
+    if (error.response) {
+      console.error('Wablas Error Response:', error.response.data);
+      console.error('Status:', error.response.status);
+    }
     res.status(500).json({
       success: false,
       message: 'Internal server error',
-      error: error.message
+      error: error.message,
+      details: error.response ? error.response.data : null
     });
   }
 };
