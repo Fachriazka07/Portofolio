@@ -1,22 +1,30 @@
-import express from 'express';
 import axios from 'axios';
-import cors from 'cors';
-import dotenv from 'dotenv';
 
-dotenv.config();
+// Backend Serverless Function for Vercel
+export default async function handler(req, res) {
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Allow all origins
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
 
-const app = express();
+  // Handle OPTIONS request
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+  // Only allow POST
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-// Endpoint untuk mengirim WhatsApp
-// Menggunakan /api prefix untuk kompatibilitas dengan Vercel Rewrites
-app.post('/api/send-wa', async (req, res) => {
   console.log('--- Incoming Request to /api/send-wa ---');
   console.log('Body:', req.body);
-  
+
   try {
     const { name, email, message } = req.body;
 
@@ -65,7 +73,7 @@ ${message}
     console.log('Data:', JSON.stringify(response.data, null, 2));
 
     if (response.data.status) {
-      res.json({
+      res.status(200).json({
         success: true,
         data: response.data
       });
@@ -92,11 +100,4 @@ ${message}
       details: error.response ? error.response.data : null
     });
   }
-});
-
-// Root route for testing
-app.get('/api', (req, res) => {
-  res.json({ message: 'Backend is running!' });
-});
-
-export default app;
+}

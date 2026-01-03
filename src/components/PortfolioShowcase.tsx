@@ -13,6 +13,7 @@ import showcaseData from "../data/showcase.json";
 import "./styles/PortfolioTabs.css";
 import "./styles/PortfolioShowcase.css";
 import "./styles/Hero.css";
+
 // Gradient SVG icons (tanpa lingkaran), stroke/fill diwarnai gradien ungu-biru
 function GradientCodeIcon({ size = 40 }: { size?: number }) {
   return (
