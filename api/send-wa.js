@@ -52,7 +52,7 @@ ${message}
     const payload = {
       phone: process.env.WA_TARGET,
       message: formattedMessage,
-      secret: 'rzN3WXD8', // Secret Key untuk bypass IP Whitelist
+      secret: process.env.WABLAS_SECRET, // Secret Key untuk bypass IP Whitelist (Wajib ada di ENV Vercel)
       retry: false,
       isGroup: false,
     };
