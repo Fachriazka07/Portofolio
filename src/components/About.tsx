@@ -1,5 +1,5 @@
 // @ts-ignore
-import meImage from "../assets/ME.jpg";
+import meImage from "../assets/me.jpg";
 import { Github, Instagram, Music } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
