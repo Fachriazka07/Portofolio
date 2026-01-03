@@ -1,5 +1,5 @@
 {
-      "name": "Personal Portfolio Website Design",
+      "name": "Fachriazka",
       "version": "0.1.0",
       "private": true,
       "dependencies": {
@@ -55,7 +55,7 @@
             "tailwindcss": "*",
             "vaul": "^1.1.2"
       },
-      "devDependencies": {
+      "Dependencies": {
             "@types/node": "^20.19.24",
             "@vitejs/plugin-react-swc": "^3.10.2",
             "typescript": "^5.9.3",
