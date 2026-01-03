@@ -74,7 +74,7 @@ export function Contact() {
 
   const sendWhatsApp = async () => {
     try {
-      const response = await fetch('http://localhost:3001/send-wa', {
+      const response = await fetch('/api/send-wa', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

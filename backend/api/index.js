@@ -1,18 +1,20 @@
-const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
-require('dotenv').config();
+import express from 'express';
+import axios from 'axios';
+import cors from 'cors';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 // Endpoint untuk mengirim WhatsApp
-app.post('/send-wa', async (req, res) => {
-  console.log('--- Incoming Request to /send-wa ---');
+// Menggunakan /api prefix untuk kompatibilitas dengan Vercel Rewrites
+app.post('/api/send-wa', async (req, res) => {
+  console.log('--- Incoming Request to /api/send-wa ---');
   console.log('Body:', req.body);
   
   try {
@@ -92,9 +94,9 @@ ${message}
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-  console.log('--- Config Loaded ---');
-  console.log('WA_TARGET:', process.env.WA_TARGET);
-  console.log('WABLAS_API_KEY (First 5 chars):', process.env.WABLAS_API_KEY ? process.env.WABLAS_API_KEY.substring(0, 5) + '...' : 'MISSING');
+// Root route for testing
+app.get('/api', (req, res) => {
+  res.json({ message: 'Backend is running!' });
 });
+
+export default app;
