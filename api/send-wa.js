@@ -1,5 +1,3 @@
-const axios = require('axios');
-
 // Backend Serverless Function for Vercel
 module.exports = async (req, res) => {
   // Enable CORS
