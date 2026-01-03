@@ -58,7 +58,11 @@ ${message}
     };
 
     // Ganti domain sesuai server Wablas user (misal: https://bdg.wablas.com)
-    const wablasResponse = await fetch('https://bdg.wablas.com/api/send-message', {
+    // Pastikan domain Wablas Anda benar (misal: bdg.wablas.com, solo.wablas.com, dll)
+    // Tambahkan secret ke Query Param untuk bypass IP Whitelist
+    const wablasUrl = `https://bdg.wablas.com/api/send-message?secret=${process.env.WABLAS_SECRET}`;
+    
+    const wablasResponse = await fetch(wablasUrl, {
       method: 'POST',
       headers: {
         'Authorization': process.env.WABLAS_API_KEY,
