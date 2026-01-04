@@ -333,6 +333,8 @@ export function About() {
                 src={meImage}
                 alt="Fachri Azka"
                 className="relative rounded-3xl shadow-2xl w-full h-auto aspect-[3/4] md:h-[500px] object-cover ring-4 ring-white dark:ring-[#1a1a2e]"
+                width={375}
+                height={500}
               />
               <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-gradient-to-br from-[#6C63FF] to-[#00C6FF] rounded-3xl flex items-center justify-center shadow-xl animate-float">
                 <div className="text-center text-white">

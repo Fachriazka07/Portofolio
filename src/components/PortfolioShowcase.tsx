@@ -307,6 +307,8 @@ export function PortfolioShowcase({ isFullPage = false }: { isFullPage?: boolean
               className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
                 project.aspect === "portrait" ? "object-top" : "object-center"
               }`}
+              width={400}
+              height={225}
             />
           </AspectRatio>
 
