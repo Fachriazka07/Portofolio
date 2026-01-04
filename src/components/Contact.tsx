@@ -48,10 +48,7 @@ export function Contact() {
         }
       );
 
-      // 2. Kirim WhatsApp via Backend SendWA
-      await sendWhatsApp();
-
-      // Jika sukses keduanya
+      // Jika sukses
       setStatus({ type: 'success', message: 'Message sent successfully!' });
       setFormData({ name: "", email: "", message: "" });
 
@@ -69,35 +66,6 @@ export function Contact() {
       console.error('FAILED...', error);
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const sendWhatsApp = async () => {
-    try {
-      const response = await fetch('/api/send-wa', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      if (!result.success) {
-        console.error('WhatsApp sending failed:', result);
-      } else {
-        console.log('WhatsApp sent successfully:', result);
-      }
-    } catch (error) {
-      console.error('Error sending WhatsApp:', error);
     }
   };
 
