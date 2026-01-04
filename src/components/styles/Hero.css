@@ -232,6 +232,12 @@
     filter: blur(24px);
   }
 }
+/* Hide decorative shapes only on mobile */
+@media (max-width: 767px) {
+  .decor-mobile-hide {
+    display: none !important;
+  }
+}
 /* Floating animations with different timings */
 @keyframes float-slow {
   0%,

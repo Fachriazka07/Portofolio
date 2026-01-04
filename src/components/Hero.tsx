@@ -13,6 +13,8 @@ export function Hero() {
   const badgeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const isMobile = typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches;
+    if (isMobile) return;
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
       tl.fromTo(
@@ -145,67 +147,67 @@ export function Hero() {
         <div className="absolute bottom-10 left-1/4 w-64 h-64 bg-[#FF6B6B]/8 dark:bg-[#FF6B6B]/15 rounded-full blur-2xl hero-bg-gradient-2" />
       </div>
 
-      <div className="absolute top-32 right-20 w-16 h-16 rounded-2xl bg-gradient-to-br from-[#6C63FF] to-[#00C6FF] opacity-20 dark:opacity-30 hero-decoration-1" />
-      <div className="absolute bottom-40 left-32 w-12 h-12 rounded-full bg-[#FFC857]/30 dark:bg-[#FFC857]/40 hero-decoration-2" />
-      <div className="absolute top-1/3 right-1/4 w-8 h-8 bg-gradient-to-br from-[#00C6FF] to-[#6C63FF] rounded-lg opacity-30 dark:opacity-40 hero-decoration-3" />
-      <div className="absolute top-1/4 left-16 w-6 h-6 bg-[#FF6B6B]/40 dark:bg-[#FF6B6B]/50 rounded-full hero-decoration-4" />
-      <div className="absolute top-3/4 right-32 w-10 h-10 bg-gradient-to-tr from-[#FFC857] to-[#FF6B6B] opacity-25 dark:opacity-35 rounded-lg hero-decoration-5" />
-      <div className="absolute top-1/2 left-8 w-14 h-14 bg-[#6C63FF]/20 dark:bg-[#6C63FF]/30 rounded-2xl hero-decoration-6" />
-      <div className="absolute bottom-1/3 right-16 w-7 h-7 bg-gradient-to-bl from-[#00C6FF] to-[#6C63FF] opacity-30 dark:opacity-40 rounded-full hero-decoration-7" />
-      <div className="absolute top-16 left-1/3 w-9 h-9 bg-[#FFC857]/35 dark:bg-[#FFC857]/45 rounded-lg hero-decoration-8" />
-      <div className="absolute bottom-16 left-1/2 w-11 h-11 bg-gradient-to-r from-[#FF6B6B] to-[#FFC857] opacity-25 dark:opacity-35 rounded-2xl hero-decoration-9" />
-      <div className="absolute top-2/3 right-8 w-5 h-5 bg-[#00C6FF]/40 dark:bg-[#00C6FF]/50 rounded-full hero-decoration-10" />
+      <div className="absolute top-32 right-20 w-16 h-16 rounded-2xl bg-gradient-to-br from-[#6C63FF] to-[#00C6FF] opacity-20 dark:opacity-30 hero-decoration-1 decor-mobile-hide" />
+      <div className="absolute bottom-40 left-32 w-12 h-12 rounded-full bg-[#FFC857]/30 dark:bg-[#FFC857]/40 hero-decoration-2 decor-mobile-hide" />
+      <div className="absolute top-1/3 right-1/4 w-8 h-8 bg-gradient-to-br from-[#00C6FF] to-[#6C63FF] rounded-lg opacity-30 dark:opacity-40 hero-decoration-3 decor-mobile-hide" />
+      <div className="absolute top-1/4 left-16 w-6 h-6 bg-[#FF6B6B]/40 dark:bg-[#FF6B6B]/50 rounded-full hero-decoration-4 decor-mobile-hide" />
+      <div className="absolute top-3/4 right-32 w-10 h-10 bg-gradient-to-tr from-[#FFC857] to-[#FF6B6B] opacity-25 dark:opacity-35 rounded-lg hero-decoration-5 decor-mobile-hide" />
+      <div className="absolute top-1/2 left-8 w-14 h-14 bg-[#6C63FF]/20 dark:bg-[#6C63FF]/30 rounded-2xl hero-decoration-6 decor-mobile-hide" />
+      <div className="absolute bottom-1/3 right-16 w-7 h-7 bg-gradient-to-bl from-[#00C6FF] to-[#6C63FF] opacity-30 dark:opacity-40 rounded-full hero-decoration-7 decor-mobile-hide" />
+      <div className="absolute top-16 left-1/3 w-9 h-9 bg-[#FFC857]/35 dark:bg-[#FFC857]/45 rounded-lg hero-decoration-8 decor-mobile-hide" />
+      <div className="absolute bottom-16 left-1/2 w-11 h-11 bg-gradient-to-r from-[#FF6B6B] to-[#FFC857] opacity-25 dark:opacity-35 rounded-2xl hero-decoration-9 decor-mobile-hide" />
+      <div className="absolute top-2/3 right-8 w-5 h-5 bg-[#00C6FF]/40 dark:bg-[#00C6FF]/50 rounded-full hero-decoration-10 decor-mobile-hide" />
 
       {/* Triangle and diamond shapes */}
-      <div className="absolute w-8 h-8 bg-[#6C63FF]/25 dark:bg-[#6C63FF]/35 hero-decoration-11 shape-triangle pos-top-right" />
-      <div className="absolute w-6 h-6 bg-[#FFC857]/30 dark:bg-[#FFC857]/40 hero-decoration-12 shape-diamond pos-bottom-left" />
-      <div className="absolute w-7 h-7 bg-[#FF6B6B]/25 dark:bg-[#FF6B6B]/35 hero-decoration-1 shape-triangle pos-upper-left" />
-      <div className="absolute w-9 h-9 bg-[#00C6FF]/20 dark:bg-[#00C6FF]/30 hero-decoration-2 shape-diamond pos-lower-right" />
+      <div className="absolute w-8 h-8 bg-[#6C63FF]/25 dark:bg-[#6C63FF]/35 hero-decoration-11 shape-triangle pos-top-right decor-mobile-hide" />
+      <div className="absolute w-6 h-6 bg-[#FFC857]/30 dark:bg-[#FFC857]/40 hero-decoration-12 shape-diamond pos-bottom-left decor-mobile-hide" />
+      <div className="absolute w-7 h-7 bg-[#FF6B6B]/25 dark:bg-[#FF6B6B]/35 hero-decoration-1 shape-triangle pos-upper-left decor-mobile-hide" />
+      <div className="absolute w-9 h-9 bg-[#00C6FF]/20 dark:bg-[#00C6FF]/30 hero-decoration-2 shape-diamond pos-lower-right decor-mobile-hide" />
 
       {/* Star shapes */}
-      <div className="absolute w-6 h-6 bg-[#FFC857]/35 dark:bg-[#FFC857]/45 hero-decoration-3 shape-star pos-top-center" />
-      <div className="absolute w-5 h-5 bg-[#6C63FF]/30 dark:bg-[#6C63FF]/40 hero-decoration-4 shape-star pos-bottom-center" />
+      <div className="absolute w-6 h-6 bg-[#FFC857]/35 dark:bg-[#FFC857]/45 hero-decoration-3 shape-star pos-top-center decor-mobile-hide" />
+      <div className="absolute w-5 h-5 bg-[#6C63FF]/30 dark:bg-[#6C63FF]/40 hero-decoration-4 shape-star pos-bottom-center decor-mobile-hide" />
 
       {/* Hexagon shapes */}
-      <div className="absolute w-8 h-8 bg-[#00C6FF]/25 dark:bg-[#00C6FF]/35 hero-decoration-5 shape-hexagon pos-middle-right" />
-      <div className="absolute w-6 h-6 bg-[#FF6B6B]/30 dark:bg-[#FF6B6B]/40 hero-decoration-6 shape-hexagon pos-lower-left" />
+      <div className="absolute w-8 h-8 bg-[#00C6FF]/25 dark:bg-[#00C6FF]/35 hero-decoration-5 shape-hexagon pos-middle-right decor-mobile-hide" />
+      <div className="absolute w-6 h-6 bg-[#FF6B6B]/30 dark:bg-[#FF6B6B]/40 hero-decoration-6 shape-hexagon pos-lower-left decor-mobile-hide" />
 
       {/* Plus signs */}
-      <div className="absolute w-2 h-4 bg-[#FFC757]/40 dark:bg-[#FFC857]/50 hero-decoration-7 shape-plus pos-scattered-1" />
-      <div className="absolute w-5 h-5 bg-[#6C63FF]/35 dark:bg-[#6C63FF]/45 hero-decoration-8 shape-plus pos-safe-bottom-right" />
+      <div className="absolute w-2 h-4 bg-[#FFC757]/40 dark:bg-[#FFC857]/50 hero-decoration-7 shape-plus pos-scattered-1 decor-mobile-hide" />
+      <div className="absolute w-5 h-5 bg-[#6C63FF]/35 dark:bg-[#6C63FF]/45 hero-decoration-8 shape-plus pos-safe-bottom-right decor-mobile-hide" />
 
       {/* Heart shapes */}
-      <div className="absolute w-6 h-6 bg-[#FF6B6B]/30 dark:bg-[#FF6B6B]/40 hero-decoration-9 shape-heart pos-floating-1" />
+      <div className="absolute w-6 h-6 bg-[#FF6B6B]/30 dark:bg-[#FF6B6B]/40 hero-decoration-9 shape-heart pos-floating-1 decor-mobile-hide" />
 
       {/* Lightning bolt */}
-      <div className="absolute w-5 h-8 bg-[#FFC857]/35 dark:bg-[#FFC857]/45 hero-decoration-10 shape-lightning pos-scattered-2" />
+      <div className="absolute w-5 h-8 bg-[#FFC857]/35 dark:bg-[#FFC857]/45 hero-decoration-10 shape-lightning pos-scattered-2 decor-mobile-hide" />
 
       {/* Floating particles */}
-      <div className="absolute w-2 h-2 bg-[#6C63FF]/50 dark:bg-[#6C63FF]/60 rounded-full hero-decoration-1 pos-scattered-3" />
-      <div className="absolute w-1.5 h-1.5 bg-[#00C6FF]/60 dark:bg-[#00C6FF]/70 rounded-full hero-decoration-2 pos-safe-top-left" />
-      <div className="absolute w-2.5 h-2.5 bg-[#FFC857]/45 dark:bg-[#FFC857]/55 rounded-full hero-decoration-3 pos-safe-bottom-left" />
-      <div className="absolute w-1 h-1 bg-[#FF6B6B]/55 dark:bg-[#FF6B6B]/65 rounded-full hero-decoration-4 pos-bottom-center" />
-      <div className="absolute w-1.5 h-1.5 bg-[#6C63FF]/40 dark:bg-[#6C63FF]/50 rounded-full hero-decoration-5 pos-far-left" />
-      <div className="absolute w-2 h-2 bg-[#00C6FF]/50 dark:bg-[#00C6FF]/60 rounded-full hero-decoration-6 pos-safe-top-right" />
+      <div className="absolute w-2 h-2 bg-[#6C63FF]/50 dark:bg-[#6C63FF]/60 rounded-full hero-decoration-1 pos-scattered-3 decor-mobile-hide" />
+      <div className="absolute w-1.5 h-1.5 bg-[#00C6FF]/60 dark:bg-[#00C6FF]/70 rounded-full hero-decoration-2 pos-safe-top-left decor-mobile-hide" />
+      <div className="absolute w-2.5 h-2.5 bg-[#FFC857]/45 dark:bg-[#FFC857]/55 rounded-full hero-decoration-3 pos-safe-bottom-left decor-mobile-hide" />
+      <div className="absolute w-1 h-1 bg-[#FF6B6B]/55 dark:bg-[#FF6B6B]/65 rounded-full hero-decoration-4 pos-bottom-center decor-mobile-hide" />
+      <div className="absolute w-1.5 h-1.5 bg-[#6C63FF]/40 dark:bg-[#6C63FF]/50 rounded-full hero-decoration-5 pos-far-left decor-mobile-hide" />
+      <div className="absolute w-2 h-2 bg-[#00C6FF]/50 dark:bg-[#00C6FF]/60 rounded-full hero-decoration-6 pos-safe-top-right decor-mobile-hide" />
 
       {/* Wavy lines */}
-      <div className="absolute w-12 h-1 bg-gradient-to-r from-[#6C63FF]/30 to-[#00C6FF]/30 dark:from-[#6C63FF]/40 dark:to-[#00C6FF]/40 hero-decoration-7 wavy-line-1 pos-floating-2" />
-      <div className="absolute w-10 h-1 bg-gradient-to-r from-[#FFC857]/35 to-[#FF6B6B]/35 dark:from-[#FFC857]/45 dark:to-[#FF6B6B]/45 hero-decoration-8 wavy-line-2 pos-scattered-4" />
+      <div className="absolute w-12 h-1 bg-gradient-to-r from-[#6C63FF]/30 to-[#00C6FF]/30 dark:from-[#6C63FF]/40 dark:to-[#00C6FF]/40 hero-decoration-7 wavy-line-1 pos-floating-2 decor-mobile-hide" />
+      <div className="absolute w-10 h-1 bg-gradient-to-r from-[#FFC857]/35 to-[#FF6B6B]/35 dark:from-[#FFC857]/45 dark:to-[#FF6B6B]/45 hero-decoration-8 wavy-line-2 pos-scattered-4 decor-mobile-hide" />
 
       {/* Spiral elements */}
-      <div className="absolute w-8 h-8 border-2 border-[#6C63FF]/25 dark:border-[#6C63FF]/35 rounded-full hero-decoration-9 spiral-1 pos-upper-right" />
-      <div className="absolute w-6 h-6 border-2 border-[#FFC857]/30 dark:border-[#FFC857]/40 rounded-full hero-decoration-10 spiral-2 pos-lower-left" />
-      <div className="absolute w-5 h-5 bg-[#6C63FF]/30 dark:bg-[#6C63FF]/40 hero-decoration-4 shape-star pos-bottom-center" />
+      <div className="absolute w-8 h-8 border-2 border-[#6C63FF]/25 dark:border-[#6C63FF]/35 rounded-full hero-decoration-9 spiral-1 pos-upper-right decor-mobile-hide" />
+      <div className="absolute w-6 h-6 border-2 border-[#FFC857]/30 dark:border-[#FFC857]/40 rounded-full hero-decoration-10 spiral-2 pos-lower-left decor-mobile-hide" />
+      <div className="absolute w-5 h-5 bg-[#6C63FF]/30 dark:bg-[#6C63FF]/40 hero-decoration-4 shape-star pos-bottom-center decor-mobile-hide" />
 
       {/* Additional hexagon shapes */}
-      <div className="absolute w-8 h-8 bg-[#FF6B6B]/20 dark:bg-[#FF6B6B]/30 hero-decoration-5 shape-hexagon pos-middle-left" />
-      <div className="absolute w-7 h-7 bg-[#00C6FF]/25 dark:bg-[#00C6FF]/35 hero-decoration-6 shape-hexagon pos-center-right" />
+      <div className="absolute w-8 h-8 bg-[#FF6B6B]/20 dark:bg-[#FF6B6B]/30 hero-decoration-5 shape-hexagon pos-middle-left decor-mobile-hide" />
+      <div className="absolute w-7 h-7 bg-[#00C6FF]/25 dark:bg-[#00C6FF]/35 hero-decoration-6 shape-hexagon pos-center-right decor-mobile-hide" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-20 text-center">
         <div className="space-y-6">
           <div
             ref={badgeRef}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/10 rounded-full shadow-lg shadow-[#6C63FF]/10 dark:shadow-[#6C63FF]/20 mb-4 backdrop-blur-sm opacity-0 badge-no-cursor"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-white/10 rounded-full shadow-lg shadow-[#6C63FF]/10 dark:shadow-[#6C63FF]/20 mb-4 backdrop-blur-sm sm:opacity-0 badge-no-cursor"
           >
             <Sparkles className="w-4 h-4 text-[#FFC857] sparkles-animated" />
             <span className="text-sm text-gray-900 dark:text-white">
@@ -216,7 +218,7 @@ export function Hero() {
 
           <h1
             ref={titleRef}
-            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-gray-900 dark:text-white opacity-0 font-bold tracking-tight"
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-gray-900 dark:text-white sm:opacity-0 font-bold tracking-tight"
           >
             I'm{" "}
             <span className="bg-gradient-to-r from-[#6C63FF] to-[#00C6FF] bg-clip-text text-transparent">
@@ -226,14 +228,14 @@ export function Hero() {
 
           <h2
             ref={subtitleRef}
-            className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 opacity-0 font-medium"
+            className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 dark:text-gray-300 sm:opacity-0 font-medium"
           >
             Fullstack Developer | UI/UX Designer
           </h2>
 
           <p
             ref={descriptionRef}
-            className="text-sm sm:text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto opacity-0 px-4"
+            className="text-sm sm:text-base md:text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto sm:opacity-0 px-4"
           >
             I enjoy building modern websites that blend design and
             functionality. From creating intuitive interfaces to developing
