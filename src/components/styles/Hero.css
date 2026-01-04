@@ -123,12 +123,13 @@
 }
 
 .button-enhanced:hover {
-  animation: button-glow 2s ease-in-out infinite;
+  animation: button-float 2s ease-in-out infinite;
 }
 
 .button-outline-enhanced {
   animation: button-float 3s ease-in-out infinite;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  will-change: transform, opacity;
 }
 
 .button-outline-enhanced:hover {
@@ -171,9 +172,9 @@
 }
 
 .sparkles-animated {
-  animation: sparkles-glow 3s ease-in-out infinite,
-    sparkles-twinkle 1.5s ease-in-out infinite;
-  transition: all 0.3s ease;
+  animation: sparkles-twinkle 1.5s ease-in-out infinite;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  will-change: transform, opacity;
 }
 
 /* Playground highlight effect - Subtle version */
@@ -213,6 +214,24 @@
   display: none;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .scroll-indicator,
+  .button-enhanced:hover,
+  .button-outline-enhanced,
+  .sparkles-animated,
+  .playground-highlight {
+    animation: none;
+    transition: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-bg-gradient-1,
+  .hero-bg-gradient-2,
+  .hero-bg-gradient-3 {
+    filter: blur(24px);
+  }
+}
 /* Floating animations with different timings */
 @keyframes float-slow {
   0%,

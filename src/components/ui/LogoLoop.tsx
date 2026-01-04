@@ -1,4 +1,5 @@
 import React from "react";
+import { ImageWithFallback } from "./ImageWithFallback";
 
 type TechLogo = {
   node?: React.ReactNode;
@@ -91,7 +92,7 @@ export default function LogoLoop({
             {logo.node ? (
               <div style={{ height: `${logoHeight}px`, width: "auto", display: "grid", placeItems: "center" }}>{logo.node}</div>
             ) : logo.src ? (
-              <img src={logo.src} alt={logo.alt || "logo"} style={{ height: `${logoHeight}px`, width: "auto" }} />
+              <ImageWithFallback src={logo.src} alt={logo.alt || "logo"} width={logoHeight} height={logoHeight} style={{ height: `${logoHeight}px`, width: "auto" }} />
             ) : null}
           </div>
         ))}

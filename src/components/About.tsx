@@ -1,5 +1,5 @@
 // @ts-ignore
-import meImage from "../assets/me.jpg";
+import meImage from "../assets/me.webp";
 import { Github, Instagram, Music } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { gsap } from "gsap";
@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 // CountUp component with animation
 function CountUp({ end, duration = 2000 }: { end: number; duration?: number }) {

@@ -7,7 +7,7 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 import { ExternalLink, Github } from "lucide-react";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { ImageWithFallback } from "./ui/ImageWithFallback";
 import { AspectRatio } from "./ui/aspect-ratio";
 import showcaseData from "../data/showcase.json";
 import "./styles/PortfolioTabs.css";
