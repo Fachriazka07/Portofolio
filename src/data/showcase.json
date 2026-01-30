@@ -3,28 +3,53 @@
     "id": 1,
     "judul": "Iphonify",
     "paragraf": "Iphonify is an e-commerce platform focused on selling Apple products with a clean and premium user interface.",
-      "bannerImage": "/banners/bannerIphonify.webp",
-      "aspect": "portrait",
-      "techStack": ["HTML", "CSS", "PHP", "MySQL", "Midtrans"],
-      "linkGithub": "https://github.com/Fachriazka07/E-commerce-website-EasyBreezy",
-      "category": "website",
+    "bannerImage": "/src/assets/bannerImage/bannerIphonify.webp",
+    "aspect": "portrait",
+    "techStack": [
+      "HTML",
+      "CSS",
+      "PHP",
+      "MySQL",
+      "Midtrans"
+    ],
+    "linkGithub": "https://github.com/Fachriazka07/E-commerce-website-EasyBreezy",
+    "category": "website",
     "demo": ""
   },
   {
     "id": 2,
-    "judul": "EasyBreezy",
-    "paragraf": "A casual fashion e-commerce website designed to showcase clothing products with a clean layout and modern visual presentation.",
-    "bannerImage": "/banners/bannerEasyBreezy.png",
-    "techStack": ["HTML", "CSS", "PHP", "MySQL", "Midtrans"],
+    "judul": "Cinema Ticket App",
+    "paragraf": "Desktop app for cinema ticket management built with C# and SQL Server.",
+    "bannerImage": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=800&fit=crop",
+    "techStack": [
+      "C#",
+      "SQL Server"
+    ],
     "linkGithub": "https://github.com/Fachriazka07/cinema-ticket",
     "category": "desktop"
   },
   {
     "id": 3,
-    "judul": "Zendo",
-    "paragraf": "A mobile Pomodoro application designed to enhance productivity through focused work sessions, featuring lofi music, ambient sounds, and multiple visual themes.",
-    "bannerImage": "/banners/bannerZendo.webp",
-    "techStack": ["Flutter", "Dart"],
-    "category": "web"
+    "judul": "SaaS Dashboard Platform",
+    "paragraf": "Modern analytics dashboard with real-time charts and user management.",
+    "bannerImage": "https://images.unsplash.com/photo-1665470909939-959569b20021?w=1200&h=800&fit=crop",
+    "techStack": [
+      "React",
+      "TypeScript",
+      "Tailwind"
+    ],
+    "category": "mobile"
+  },
+  {
+    "id": 4,
+    "judul": "E-Commerce Website",
+    "paragraf": "Online store with payment integration and inventory management.",
+    "bannerImage": "https://images.unsplash.com/photo-1677214467820-ab069619bbb6?w=1200&h=800&fit=crop",
+    "techStack": [
+      "Laravel",
+      "MySQL",
+      "Stripe"
+    ],
+    "category": "mobile"
   }
 ]

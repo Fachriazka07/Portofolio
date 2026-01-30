@@ -3302,3 +3302,45 @@ html {
     transform: none;
   }
 }
+@layer base {
+  :root {
+    /* Neo Brutalism Colors - Light */
+    --bg-primary: #FFFEF0;
+    --bg-surface: #FFFFFF;
+    --accent-primary: #FFD700;
+    --accent-secondary: #FF6B6B;
+    --accent-tertiary: #4ECDC4;
+    --border-color: #000000;
+    --text-primary: #000000;
+    
+    /* Neo Brutalism Borders & Shadows */
+    --border-width: 3px;
+    --shadow-sm: 4px 4px 0 var(--border-color);
+    --shadow-md: 6px 6px 0 var(--border-color);
+    --shadow-lg: 8px 8px 0 var(--border-color);
+    
+    /* Grid Pattern */
+    --grid-pattern: linear-gradient(to right, #00000030 1px, transparent 1px),
+                    linear-gradient(to bottom, #00000030 1px, transparent 1px);
+  }
+
+  .dark {
+    /* Neo Brutalism Colors - Dark */
+    --bg-primary: #1A1A1A;
+    --bg-surface: #2A2A2A;
+    --border-color: #FFFFFF;
+    --text-primary: #FFFFFF;
+    --shadow-sm: 4px 4px 0 var(--accent-primary);
+    
+    /* Grid Pattern Dark */
+    --grid-pattern: linear-gradient(to right, #FFFFFF30 1px, transparent 1px),
+                    linear-gradient(to bottom, #FFFFFF30 1px, transparent 1px);
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    background-image: var(--grid-pattern);
+    background-size: 40px 40px;
+    color: var(--text-primary);
+  }
+}

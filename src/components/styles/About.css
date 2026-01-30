@@ -1,0 +1,221 @@
+/* About.css */
+
+/* =========================================
+   1. THEME VARIABLES (Local Scope)
+   ========================================= */
+.about-section {
+    --about-bg: #FFFEF0;
+    --about-text: #000000;
+    --about-card-bg: #FFFFFF;
+    --about-border: #000000;
+    --about-shadow: #000000;
+
+    /* Highlight Colors */
+    --highlight-yellow: #FFD700;
+    --highlight-pink: #FF6B6B;
+    --highlight-cyan: #22D3EE;
+    --highlight-green: #A3E635;
+    --highlight-purple: #c084fc;
+}
+
+/* Dark Mode Overrides */
+.dark .about-section {
+    --about-bg: #121212;
+    --about-text: #FFFFFF;
+    --about-card-bg: #1a1a1a;
+    --about-border: #FFFFFF;
+    --about-shadow: #FFFFFF;
+
+    /* Adjust highlights for dark mode readability if needed */
+    --highlight-yellow: #FFD700;
+    --highlight-pink: #FF6B6B;
+    --highlight-cyan: #22D3EE;
+    --highlight-green: #A3E635;
+    --highlight-purple: #c084fc;
+}
+
+/* =========================================
+   2. LAYOUT
+   ========================================= */
+
+.about-section {
+    position: relative;
+    padding: 6rem 1.5rem;
+    background-color: var(--about-bg);
+    color: var(--about-text);
+    /* Grid Pattern (Same as Hero for consistency) */
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+    background-size: 50px 50px;
+}
+
+.dark .about-section {
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+}
+
+.about-container {
+    max-width: 72rem;
+    /* max-w-6xl for wider rectangular look */
+    margin: 0 auto;
+    position: relative;
+}
+
+/* =========================================
+   3. COMPONENTS
+   ========================================= */
+
+/* Title Badge (The "ABOUT" box) */
+.about-title-badge {
+    background-color: var(--highlight-yellow);
+    border: 4px solid var(--about-border);
+    box-shadow: 6px 6px 0 0 var(--about-shadow);
+    padding: 0.5rem 1.5rem;
+    display: inline-block;
+    font-weight: 900;
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: #000;
+    /* Always black text on yellow badge */
+    transform: rotate(-2deg);
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 20;
+}
+
+/* Content Card */
+.about-card {
+    background-color: var(--about-card-bg);
+    border: 4px solid var(--about-border);
+    box-shadow: 12px 12px 0 0 var(--about-shadow);
+    padding: 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+@media (min-width: 768px) {
+    .about-card {
+        padding: 4rem;
+    }
+}
+
+/* Typography */
+.about-text {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    font-weight: 500;
+    font-family: var(--font-sans, sans-serif);
+}
+
+@media (min-width: 768px) {
+    .about-text {
+        font-size: 1.5rem;
+    }
+}
+
+/* =========================================
+   4. HIGHLIGHTS (The "Stabilo" Effect)
+   ========================================= */
+
+.highlight {
+    position: relative;
+    display: inline-block;
+    padding: 0 0.2em;
+    z-index: 1;
+    white-space: nowrap;
+    /* Prevent breaking inside highlight if possible */
+}
+
+/* The colored background shape */
+.highlight::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    transform: skew(-10deg) rotate(-1deg);
+    border-radius: 4px;
+    opacity: 0.8;
+}
+
+/* Variasi Warna */
+.highlight-yellow::before {
+    background-color: var(--highlight-yellow);
+}
+
+.highlight-pink::before {
+    background-color: var(--highlight-pink);
+}
+
+.highlight-cyan::before {
+    background-color: var(--highlight-cyan);
+}
+
+.highlight-green::before {
+    background-color: var(--highlight-green);
+}
+
+.highlight-purple::before {
+    background-color: var(--highlight-purple);
+}
+
+/* Text color always black inside highlights for contrast? 
+   Or transparent so body text shows through?
+   If body text is white in dark mode, and highlight is yellow, white on yellow is bad.
+   So Highlighted text should probably force BLACK color for readability. */
+.highlight {
+    color: #000;
+}
+
+/* =========================================
+   5. SOCIALS CARD
+   ========================================= */
+.about-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    justify-content: center;
+}
+
+.about-social-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--about-card-bg);
+    border: 3px solid var(--about-border);
+    box-shadow: 4px 4px 0 0 var(--about-shadow);
+    color: var(--about-text);
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.about-social-btn:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0 0 var(--about-shadow);
+}
+
+.about-social-btn.github:hover {
+    background-color: #24292e;
+    color: #fff;
+}
+
+.about-social-btn.instagram:hover {
+    background-color: #E4405F;
+    color: #fff;
+}
+
+.about-social-btn.spotify:hover {
+    background-color: #1DB954;
+    color: #fff;
+}
+
+.dark .about-social-btn.github:hover {
+    border-color: #fff;
+}

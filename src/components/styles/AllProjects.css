@@ -1,0 +1,206 @@
+/* AllProjects.css - Neo Brutalist Archive Style */
+
+.archive-spacer {
+    /* Variables for Cards (Copied from Portfolio.css) */
+    --port-bg: #FFFEF0;
+    --port-text: #000000;
+    --port-card-bg: #FFFFFF;
+    --port-border: #000000;
+    --port-shadow: #000000;
+    --highlight-yellow: #FFD700;
+    --highlight-cyan: #22D3EE;
+    --highlight-pink: #FF6B6B;
+    --highlight-green: #A3E635;
+
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+    min-height: 100vh;
+    color: var(--port-text);
+    /* Grid Pattern */
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-color: var(--port-bg);
+}
+
+.dark .archive-spacer {
+    --port-bg: #121212;
+    --port-text: #FFFFFF;
+    --port-card-bg: #1a1a1a;
+    --port-border: #FFFFFF;
+    --port-shadow: #FFFFFF;
+
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+}
+
+.archive-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* HEADER SECTION */
+.archive-header {
+    margin-bottom: 4rem;
+    position: relative;
+    border-bottom: 4px solid var(--port-border);
+    padding-bottom: 2rem;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    font-size: 1.125rem;
+    color: var(--port-text);
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    transition: all 0.2s;
+    background-color: var(--port-card-bg);
+    border: 3px solid var(--port-border);
+    padding: 0.5rem 1rem;
+    box-shadow: 4px 4px 0 0 var(--port-shadow);
+}
+
+.btn-back:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 0 var(--port-shadow);
+    background-color: var(--highlight-yellow);
+    color: #000;
+}
+
+.archive-title {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 900;
+    line-height: 0.9;
+    text-transform: uppercase;
+    margin: 0;
+    letter-spacing: -0.02em;
+    color: var(--port-text);
+}
+
+/* CONTROLS (Search & Filter) */
+.archive-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+    .archive-controls {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+/* SEARCH BAR */
+.search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 1.125rem;
+    border: 3px solid var(--port-border);
+    background-color: var(--port-card-bg);
+    color: var(--port-text);
+    box-shadow: 4px 4px 0 0 var(--port-shadow);
+    outline: none;
+    transition: box-shadow 0.2s;
+}
+
+.search-input:focus {
+    box-shadow: 6px 6px 0 0 var(--highlight-cyan);
+}
+
+.search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    opacity: 0.5;
+    color: var(--port-text);
+}
+
+/* FILTER BUTTONS */
+.filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.filter-btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    border: 3px solid var(--port-border);
+    background-color: var(--port-card-bg);
+    color: var(--port-text);
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 2px 2px 0 0 var(--port-shadow);
+    /* Default active color fallback */
+    --active-color: var(--highlight-green);
+}
+
+.filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 5px 5px 0 0 var(--active-color);
+    border-color: #000;
+    /* Ensure accent on hover? Or keep variable? Let's keep variable */
+    border-color: var(--port-border);
+}
+
+.filter-btn.active {
+    background-color: var(--port-card-bg);
+    color: var(--port-text);
+    box-shadow: 8px 8px 0 0 var(--active-color);
+    transform: translate(-4px, -4px);
+    border-color: var(--port-border);
+    position: relative;
+    z-index: 5;
+}
+
+/* GRID LAYOUT */
+.archive-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .archive-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .archive-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* EMPTY STATE */
+.archive-empty {
+    text-align: center;
+    padding: 4rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border: 3px dashed var(--port-border);
+    background-color: var(--port-card-bg);
+    color: var(--port-text);
+    opacity: 0.7;
+}

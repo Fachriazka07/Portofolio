@@ -1,27 +1,20 @@
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
 import { Github, Linkedin, Instagram, ExternalLink, Send, Mail, MapPin, Loader2, Check, AlertCircle } from "lucide-react";
-import { useState, useEffect, useRef, FormEvent } from "react";
-import gsap from "gsap";
+import { useState, FormEvent, useEffect, useRef } from "react";
 import emailjs from '@emailjs/browser';
-import "./styles/Hero.css";
-import "./styles/PortfolioShowcase.css";
-import "./styles/ContactModal.css";
-import "./styles/ContactLoader.css";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import "./styles/ContactBrutalist.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const socialLinks = [
-  { icon: Github, label: "GitHub", href: "#", gradient: "from-[#6C63FF] to-[#8B82FF]" },
-  { icon: Instagram, label: "Instagram", href: "#", gradient: "from-[#00C6FF] to-[#00A8E6]" },
-  { icon: ExternalLink, label: "Fiverr", href: "#", gradient: "from-[#FFC857] to-[#FFB347]" },
-  { icon: Linkedin, label: "LinkedIn", href: "#", gradient: "from-[#6C63FF] to-[#00C6FF]" }
+  { icon: Github, label: "GitHub", href: "https://github.com/Fachriazka07", color: "#FFD700" }, // Yellow
+  { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/fachriazka07/", color: "#FF6B6B" }, // Pink/Red
+  { icon: ExternalLink, label: "Fiverr", href: "#", color: "#A3E635" }, // Lime Green
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/fachri-azka-1b3b3b2b0/", color: "#22D3EE" } // Cyan
 ];
 
 export function Contact() {
-  const circle1Ref = useRef<HTMLDivElement>(null);
-  const circle2Ref = useRef<HTMLDivElement>(null);
-  const shapesRef = useRef<HTMLDivElement>(null);
-  const popupRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,13 +23,65 @@ export function Contact() {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    try {
+      emailjs.init("3smaLC9f1M-IRp8xe");
+    } catch (err) {
+      console.error("EmailJS Initialization Failed:", err);
+    }
+  }, []);
+
+  // GSAP Animation
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 70%",
+          toggleActions: "play none none reverse"
+        }
+      });
+
+      tl.from(".contact-title-badge", {
+        y: -30,
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.5,
+        ease: "back.out(1.7)"
+      })
+        .from(".contact-heading", {
+          y: 20,
+          opacity: 0,
+          duration: 0.5
+        }, "-=0.3")
+        .from(formRef.current, {
+          x: -50,
+          opacity: 0,
+          duration: 0.6,
+          ease: "power2.out"
+        }, "-=0.2")
+        .from(infoRef.current, {
+          x: 50,
+          opacity: 0,
+          duration: 0.6,
+          ease: "power2.out"
+        }, "<"); // Run parallel with form
+
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setStatus({ type: null, message: '' });
 
     try {
-      // 1. Kirim Email via EmailJS
       await emailjs.send(
         'service_ad5vyn1',
         'template_efqp0mm',
@@ -48,19 +93,8 @@ export function Contact() {
         }
       );
 
-      // Jika sukses
       setStatus({ type: 'success', message: 'Message sent successfully!' });
       setFormData({ name: "", email: "", message: "" });
-
-      // Animate popup
-      setTimeout(() => {
-        if (popupRef.current) {
-          gsap.fromTo(popupRef.current,
-            { scale: 0.5, opacity: 0 },
-            { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.7)" }
-          );
-        }
-      }, 100);
     } catch (error) {
       setStatus({ type: 'error', message: 'Failed to send message. Please try again.' });
       console.error('FAILED...', error);
@@ -69,228 +103,145 @@ export function Contact() {
     }
   };
 
-  useEffect(() => {
-    // Initialize EmailJS explicitly
-    try {
-      emailjs.init("3smaLC9f1M-IRp8xe");
-      console.log("EmailJS Initialized");
-    } catch (err) {
-      console.error("EmailJS Initialization Failed:", err);
-    }
-
-    if (circle1Ref.current) {
-      gsap.to(circle1Ref.current, {
-        x: gsap.utils.random(-40, 40),
-        y: gsap.utils.random(-30, 30),
-        scale: gsap.utils.random(0.95, 1.15),
-        duration: gsap.utils.random(6, 10),
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: gsap.utils.random(0, 1.2),
-      });
-    }
-    if (circle2Ref.current) {
-      gsap.to(circle2Ref.current, {
-        x: gsap.utils.random(-30, 30),
-        y: gsap.utils.random(-40, 40),
-        scale: gsap.utils.random(0.9, 1.2),
-        duration: gsap.utils.random(5, 9),
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: gsap.utils.random(0, 1.2),
-      });
-    }
-    if (shapesRef.current) {
-      const container = shapesRef.current;
-      const elements = container.querySelectorAll(".ps-shape");
-      elements.forEach((el) => {
-        const dx = gsap.utils.random(-40, 40);
-        const dy = gsap.utils.random(-30, 30);
-        const rot = gsap.utils.random(-180, 180);
-        const dur = gsap.utils.random(3, 7);
-        gsap.to(el, { x: `+=${dx}`, y: `+=${dy}`, rotation: rot, duration: dur, yoyo: true, repeat: -1, ease: "sine.inOut", delay: gsap.utils.random(0, 1.5) });
-        if (Math.random() < 0.6) {
-          gsap.to(el, { scale: gsap.utils.random(0.9, 1.15), duration: gsap.utils.random(2, 5), yoyo: true, repeat: -1, ease: "power1.inOut" });
-        }
-      });
-    }
-  }, []);
-
   return (
-    <section id="contact" className="min-h-screen flex items-center justify-center py-32 bg-white dark:bg-[#0f0f1a] relative overflow-hidden transition-colors duration-300">
-      <div ref={circle1Ref} className="absolute top-0 right-0 w-96 h-96 bg-[#6C63FF]/10 dark:bg-[#6C63FF]/15 rounded-full blur-3xl" />
-      <div ref={circle2Ref} className="absolute bottom-0 left-0 w-96 h-96 bg-[#00C6FF]/10 dark:bg-[#00C6FF]/15 rounded-full blur-3xl" />
-      <div ref={shapesRef} className="ps-decorations">
-        <div className="ps-shape ps-purple shape-diamond pos-top-right hero-decoration-5" style={{ width: 26, height: 26 }} />
-        <div className="ps-shape ps-cyan shape-triangle pos-bottom-left hero-decoration-8" style={{ width: 22, height: 22 }} />
-        <div className="ps-shape ps-lime shape-hexagon pos-middle-right hero-decoration-7" style={{ width: 24, height: 24 }} />
-        <div className="ps-shape ps-yellow shape-star pos-scattered-3 hero-decoration-10" style={{ width: 18, height: 18 }} />
-      </div>
-      
-      <div className="max-w-5xl mx-auto px-6 lg:px-20 relative z-10">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#6C63FF]/10 to-[#00C6FF]/10 dark:from-[#6C63FF]/20 dark:to-[#00C6FF]/20 rounded-full mb-4">
-            <span className="w-2 h-2 bg-gradient-to-r from-[#6C63FF] to-[#00C6FF] rounded-full animate-pulse" />
-            <span className="text-sm text-gray-900 dark:text-white">Get In Touch</span>
+    <section ref={sectionRef} id="contact" className="contact-section">
+      <div className="contact-container">
+
+        {/* Header */}
+        <div className="text-center">
+          <div className="contact-title-badge">
+            GET IN TOUCH
           </div>
-          <h2 className="text-3xl md:text-5xl mb-4 text-gray-900 dark:text-white font-bold">Let's Work <span className="bg-gradient-to-r from-[#6C63FF] to-[#00C6FF] bg-clip-text text-transparent">Together</span></h2>
-          <p className="text-base md:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto px-4">
-            Have a project in mind? Drop me a message and let's create something amazing!
-          </p>
+          <h2 className="contact-heading">
+            LET'S WORK <span style={{ color: 'var(--highlight-cyan)' }}>TOGETHER</span>
+          </h2>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <div className="bg-gradient-to-br from-white to-gray-50 dark:from-[#1a1a2e] dark:to-[#1a1a2e]/80 rounded-3xl p-8 shadow-lg border-2 border-gray-100 dark:border-white/5">
-            <form onSubmit={handleSubmit} className="space-y-6">
+
+          {/* Left Column: Form */}
+          <div ref={formRef} className="contact-form-card">
+            <form onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="name" className="block text-sm mb-2 text-gray-700 dark:text-gray-300">
-                  Your Name
-                </label>
-                <Input
+                <label htmlFor="name" className="contact-label">Your Name</label>
+                <input
                   id="name"
                   type="text"
-                  placeholder="John Doe"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full border-2 border-gray-200 dark:border-white/10 focus:border-[#6C63FF] dark:focus:border-[#6C63FF] rounded-2xl transition-colors bg-white dark:bg-white/5 text-gray-900 dark:text-white"
+                  className="contact-input"
+                  placeholder="JOHN DOE"
                   required
                 />
               </div>
-
               <div>
-                <label htmlFor="email" className="block text-sm mb-2 text-gray-700 dark:text-gray-300">
-                  Email Address
-                </label>
-                <Input
+                <label htmlFor="email" className="contact-label">Email Address</label>
+                <input
                   id="email"
                   type="email"
-                  placeholder="john@example.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full border-2 border-gray-200 dark:border-white/10 focus:border-[#6C63FF] dark:focus:border-[#6C63FF] rounded-2xl transition-colors bg-white dark:bg-white/5 text-gray-900 dark:text-white"
+                  className="contact-input"
+                  placeholder="JOHN@EXAMPLE.COM"
                   required
                 />
               </div>
-
               <div>
-                <label htmlFor="message" className="block text-sm mb-2 text-gray-700 dark:text-gray-300">
-                  Message
-                </label>
-                <Textarea
+                <label htmlFor="message" className="contact-label">Message</label>
+                <textarea
                   id="message"
-                  placeholder="Tell me about your project..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full border-2 border-gray-200 dark:border-white/10 focus:border-[#6C63FF] dark:focus:border-[#6C63FF] rounded-2xl transition-colors min-h-[150px] bg-white dark:bg-white/5 text-gray-900 dark:text-white"
+                  className="contact-textarea"
+                  placeholder="TELL ME ABOUT YOUR PROJECT..."
+                  rows={5}
                   required
                 />
               </div>
 
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="w-full bg-gradient-to-r from-[#6C63FF] to-[#00C6FF] text-white hover:shadow-lg hover:shadow-[#6C63FF]/30 dark:hover:shadow-[#6C63FF]/50 transition-all duration-300 hover:scale-105 py-6 rounded-2xl group disabled:opacity-70 disabled:hover:scale-100 disabled:cursor-not-allowed"
-              >
+              {/* Removed inline alert */}
+
+              <button type="submit" disabled={isLoading} className="contact-btn">
                 {isLoading ? (
-                  <div className="flex items-center justify-center gap-2 loading-content">
-                    <span>Sending...</span>
-                    <Loader2 className="w-5 h-5 spinner-icon" />
-                  </div>
+                  <>Sending <Loader2 className="animate-spin" /></>
                 ) : (
-                  <div className="flex items-center justify-center gap-2">
-                    <span>Send Message</span>
-                    <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
+                  <>Send Message <Send size={20} /></>
                 )}
-              </Button>
+              </button>
             </form>
           </div>
 
-          {/* Contact Info & Social */}
-          <div className="space-y-8">
-            <div className="bg-gradient-to-br from-white to-gray-50 dark:from-[#1a1a2e] dark:to-[#1a1a2e]/80 rounded-3xl p-8 shadow-lg border-2 border-gray-100 dark:border-white/5 space-y-6">
-              <h3 className="text-2xl text-gray-900 dark:text-white">Contact Information</h3>
-              
-              <div className="space-y-4">
-                <div className="flex items-center gap-4 p-4 bg-white dark:bg-white/5 rounded-2xl hover:shadow-lg dark:hover:shadow-[#6C63FF]/10 transition-all duration-300">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#6C63FF] to-[#8B82FF] flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">Email</div>
-                    <div className="text-sm text-gray-900 dark:text-white">fachriazka890@gmail.com</div>
-                  </div>
-                </div>
+          {/* Right Column: Info & Socials */}
+          <div ref={infoRef} className="flex flex-col gap-6">
 
-                <div className="flex items-center gap-4 p-4 bg-white dark:bg-white/5 rounded-2xl hover:shadow-lg dark:hover:shadow-[#00C6FF]/10 transition-all duration-300">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#00C6FF] to-[#00A8E6] flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">Location</div>
-                    <div className="text-sm text-gray-900 dark:text-white">Sumedang, Indonesia</div>
-                  </div>
-                </div>
+            {/* Info Card */}
+            <div className="contact-info-card">
+              <Mail size={32} strokeWidth={2.5} color="black" className="bg-[#FF6B6B] p-1 border-2 border-black" />
+              <div>
+                <div className="font-bold text-sm uppercase opacity-60 text-black dark:text-gray-300">Email</div>
+                <div className="font-black text-lg text-black dark:text-white">fachriazka890@gmail.com</div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-white to-gray-50 dark:from-[#1a1a2e] dark:to-[#1a1a2e]/80 rounded-3xl p-8 shadow-lg border-2 border-gray-100 dark:border-white/5">
-              <h3 className="text-2xl mb-6 text-gray-900 dark:text-white">Connect With Me</h3>
-              
-              <div className="grid grid-cols-2 gap-4">
-                {socialLinks.map((social) => {
-                  const Icon = social.icon;
-                  return (
-                    <a
-                      key={social.label}
-                      href={social.href}
-                      className="group flex flex-col items-center justify-center p-6 bg-white dark:bg-white/5 rounded-2xl hover:shadow-lg dark:hover:shadow-[#6C63FF]/10 transition-all duration-300 hover:-translate-y-1"
-                    >
-                      <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${social.gradient} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300`}>
-                        <Icon className="w-6 h-6 text-white" />
-                      </div>
-                      <span className="text-sm text-gray-700 dark:text-gray-300">{social.label}</span>
-                    </a>
-                  );
-                })}
+            <div className="contact-info-card">
+              <MapPin size={32} strokeWidth={2.5} color="black" className="bg-[#22D3EE] p-1 border-2 border-black" />
+              <div>
+                <div className="font-bold text-sm uppercase opacity-60 text-black dark:text-gray-300">Location</div>
+                <div className="font-black text-lg text-black dark:text-white">Sumedang, Indonesia</div>
               </div>
             </div>
+
+            {/* Social Grid */}
+            <div className="contact-social-grid">
+              {socialLinks.map((social) => {
+                const Icon = social.icon;
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="social-btn"
+                    style={{ "--hover-bg": social.color } as React.CSSProperties}
+                  >
+                    <Icon size={32} strokeWidth={2} />
+                    <span>{social.label}</span>
+                  </a>
+                );
+              })}
+            </div>
+
           </div>
+
         </div>
+
       </div>
 
+      {/* Neo Brutalist Popup/Modal - CSS Class Version */}
       {status.message && (
-        <div className="modal-overlay">
-          <div ref={popupRef} className="modal-content">
-            <div className={`modal-icon-wrapper ${status.type === 'success' ? 'success' : 'error'}`}>
-              {status.type === 'success' ? (
-                <Check className="w-12 h-12 text-white" strokeWidth={5} />
-              ) : (
-                <AlertCircle className="w-12 h-12 text-white" strokeWidth={3} />
-              )}
-            </div>
-            
-            <div className="modal-body">
-              <h3 className="modal-title">
-                {status.type === 'success' ? 'Thank You!' : 'Error'}
+        <div className="neo-modal-overlay">
+          <div className="neo-modal-card">
+
+            <div className="mb-0">
+              <h3 className="neo-modal-title">
+                {status.type === 'success' ? 'SENT!' : 'ERROR!'}
               </h3>
-              <p className="modal-message">
-                {status.type === 'success' ? 'Your details has been successfully submitted. Thanks!' : status.message}
+              <p className="neo-modal-subtitle">
+                {status.type === 'success' ? 'Message received.' : status.message}
               </p>
-              
-              <button
-                onClick={() => setStatus({ type: null, message: '' })}
-                className={`modal-button ${status.type === 'success' ? 'success' : 'error'}`}
-              >
-                {status.type === 'success' ? 'Continue' : 'Try Again'}
-              </button>
             </div>
+
+            <button
+              onClick={() => setStatus({ type: null, message: '' })}
+              className="neo-modal-btn"
+            >
+              {status.type === 'success' ? 'OKAY COOL' : 'TRY AGAIN'}
+            </button>
+
           </div>
         </div>
       )}
+
     </section>
   );
 }

@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Moon, Sun } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-// @ts-ignore
 import logo from "../assets/logo.png";
+// @ts-ignore
+
 import "./Navbar.css";
 
 export function Navbar() {
@@ -79,7 +80,10 @@ export function Navbar() {
 
           {/* Brand / Logo Section - Hidden on Mobile via CSS */}
           <button onClick={() => scrollToSection("home")} className="nav-brand">
-            <img src={logo} alt="Fachri Azka" className="brand-logo" />
+            {/* Image Logo */}
+            <div className="w-12 h-12 bg-[#FFD700] border-[3px] border-black shadow-[3px_3px_0_0_#000] flex items-center justify-center overflow-hidden">
+              <img src={logo} alt="Logo" className="w-full h-full object-contain p-1" />
+            </div>
             <span className="brand-text">Fachri Azka</span>
           </button>
 
@@ -92,9 +96,9 @@ export function Navbar() {
                   if (item === "Portofolio") {
                     if (location.pathname !== "/") {
                       navigate("/");
-                      setTimeout(() => scrollToSection("showcase"), 120);
+                      setTimeout(() => scrollToSection("portfolio"), 120);
                     } else {
-                      scrollToSection("showcase");
+                      scrollToSection("portfolio");
                     }
                   } else {
                     const target = item.toLowerCase();
@@ -117,16 +121,14 @@ export function Navbar() {
               aria-label="Toggle theme"
             >
               <Sun
-                className={`absolute transition-all duration-500 ${
-                  isDark ? "opacity-0 rotate-180 scale-0" : "opacity-100 rotate-0 scale-100"
-                }`}
+                className={`absolute transition-all duration-500 ${isDark ? "opacity-0 rotate-180 scale-0" : "opacity-100 rotate-0 scale-100"
+                  }`}
                 color="#FFC857"
                 size={24}
               />
               <Moon
-                className={`absolute transition-all duration-500 ${
-                  isDark ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-180 scale-0"
-                }`}
+                className={`absolute transition-all duration-500 ${isDark ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-180 scale-0"
+                  }`}
                 color="#6C63FF"
                 size={24}
               />
@@ -144,8 +146,8 @@ export function Navbar() {
       </nav>
 
       {/* Mobile Drawer Backdrop */}
-      <div 
-        className={`drawer-backdrop ${isMobileMenuOpen ? "open" : ""}`} 
+      <div
+        className={`drawer-backdrop ${isMobileMenuOpen ? "open" : ""}`}
         onClick={() => setIsMobileMenuOpen(false)}
       />
 
@@ -154,13 +156,12 @@ export function Navbar() {
         {/* Drawer Header */}
         <div className="flex items-center justify-between w-full flex-shrink-0 pt-2">
           <div className="flex items-center gap-3">
-            <img
-              src={logo}
-              alt="Fachri Azka"
-              className="w-12 h-12 rounded-full object-cover ring-2 ring-[#6C63FF]/20 dark:ring-[#6C63FF]/40"
-            />
+            <div className="w-10 h-10 bg-[#FFD700] border-[3px] border-black shadow-[3px_3px_0_0_#000] flex items-center justify-center overflow-hidden">
+              <img src={logo} alt="Logo" className="w-full h-full object-contain p-1" />
+            </div>
+            <span className="font-bold text-xl">Fachri Azka</span>
           </div>
-          
+
           {/* Close Button (Animated X) */}
           <button
             className="hamburger-btn"
@@ -202,7 +203,7 @@ export function Navbar() {
                 setIsMobileMenuOpen(false);
               }}
               className="text-left text-3xl font-bold text-gray-900 dark:text-white hover:text-[#6C63FF] dark:hover:text-[#6C63FF] transition-colors relative group w-fit mb-6 last:mb-0"
-              style={{ 
+              style={{
                 opacity: isMobileMenuOpen ? 1 : 0,
                 transform: isMobileMenuOpen ? 'translateX(0)' : 'translateX(-20px)', /* Slide from left */
                 transition: `all 0.4s ease ${index * 0.1 + 0.2}s`

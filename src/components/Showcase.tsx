@@ -83,7 +83,7 @@ export function Showcase() {
                 <ImageWithFallback
                   src={project.bannerImage}
                   alt={project.judul}
-                  className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  className="max-w-full max-h-full object-contain object-center transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className={`absolute inset-0 bg-gradient-to-br from-[#6C63FF] to-[#00C6FF] opacity-0 group-hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-3`}>
                   {project.demo && (

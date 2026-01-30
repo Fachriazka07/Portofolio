@@ -1,0 +1,493 @@
+/* Portfolio.css - Retro OS / Neo Brutalism Style */
+
+/* =========================================
+   1. THEME VARIABLES (Local Scope)
+   ========================================= */
+.portfolio-section {
+    --port-bg: #FFFEF0;
+    --port-text: #000000;
+    --port-card-bg: #FFFFFF;
+    --port-border: #000000;
+    --port-shadow: #000000;
+
+    /* Highlight Colors */
+    --highlight-yellow: #FFD700;
+    --highlight-cyan: #22D3EE;
+    --highlight-pink: #FF6B6B;
+    --highlight-green: #A3E635;
+
+    --tab-inactive: #e5e7eb;
+}
+
+/* Dark Mode Overrides */
+.dark .portfolio-section {
+    --port-bg: #121212;
+    --port-text: #FFFFFF;
+    --port-card-bg: #1a1a1a;
+    --port-border: #FFFFFF;
+    --port-shadow: #FFFFFF;
+
+    --tab-inactive: #333333;
+    --highlight-yellow: #FFD700;
+}
+
+/* =========================================
+   2. LAYOUT
+   ========================================= */
+
+.portfolio-section {
+    position: relative;
+    padding: 6rem 1.5rem;
+    background-color: var(--port-bg);
+    color: var(--port-text);
+    /* Grid Pattern (Consistent with others) */
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+    background-size: 50px 50px;
+}
+
+.dark .portfolio-section {
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+}
+
+.portfolio-container {
+    max-width: 72rem;
+    /* max-w-6xl */
+    margin: 0 auto;
+}
+
+/* =========================================
+   3. RETRO TABS
+   ========================================= */
+
+/* Title Badge (Copied from About style but customized) */
+.portfolio-title-badge {
+    background-color: var(--highlight-green);
+    border: 4px solid var(--port-border);
+    box-shadow: 6px 6px 0 0 var(--port-shadow);
+    padding: 0.5rem 1.5rem;
+    display: inline-block;
+    font-weight: 900;
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: #000;
+    transform: rotate(2deg);
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 20;
+}
+
+.portfolio-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: -3px;
+    /* Exact overlap with 3px border */
+    position: relative;
+    z-index: 10;
+    padding-left: 1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    align-items: flex-end;
+    /* Align bottom */
+    height: 100px;
+    /* Increased to 100px to prevent cutoff as per user request */
+}
+
+.portfolio-tab {
+    padding: 1rem 2rem;
+    background-color: var(--tab-inactive);
+    border: 3px solid var(--port-border);
+    border-bottom: 3px solid var(--port-border);
+    border-radius: 12px 12px 0 0;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--port-text);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    bottom: -3px;
+    /* Push down to sit on line */
+    white-space: nowrap;
+}
+
+.portfolio-tab:hover {
+    background-color: var(--hover-color, var(--highlight-cyan));
+    transform: translateY(-5px);
+}
+
+.portfolio-tab.active {
+    background-color: var(--port-card-bg);
+    border-bottom: 3px solid var(--port-card-bg);
+    /* Mask the content border */
+    z-index: 20;
+    padding-bottom: 1.25rem;
+    /* Extend down */
+    transform: translateY(-5px);
+    /* Permanently raised */
+    box-shadow: 0 -4px 0 0 rgba(0, 0, 0, 0.1) inset;
+    /* Subtle depth */
+}
+
+
+/* If we want Active tab to be Yellow, then Content Header must be Yellow too. 
+   Let's keep Active Tab = Card BG (White/Dark) for "Folder" look. */
+
+/* =========================================
+   4. TAB CONTENT AREA (The Folder)
+   ========================================= */
+
+.portfolio-content {
+    background-color: var(--port-card-bg);
+    border: 3px solid var(--port-border);
+    box-shadow: 8px 8px 0 0 var(--port-shadow);
+    padding: 2rem;
+    position: relative;
+    z-index: 5;
+    min-height: 400px;
+    border-radius: 0 12px 12px 12px;
+    /* Top left square where tabs are */
+}
+
+/* =========================================
+   5. BROWSER WINDOW CARD
+   ========================================= */
+
+.browser-card {
+    background-color: var(--port-card-bg);
+    /* Use theme variable for Dark Mode support */
+    border: 3px solid var(--port-border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 4px 4px 0 0 var(--port-shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.browser-card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0 0 var(--port-shadow);
+}
+
+.browser-header {
+    background-color: var(--port-text);
+    /* Black header in light, White in dark? */
+    /* Let's use border color for header bg, and inverse text */
+    background-color: var(--port-border);
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Traffic Lights */
+.browser-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.dot-red {
+    background-color: #FF6B6B;
+}
+
+.dot-yellow {
+    background-color: #FFD700;
+}
+
+.dot-green {
+    background-color: #A3E635;
+}
+
+/* Address Bar / Title */
+.browser-title-bar {
+    background-color: var(--port-card-bg);
+    border: 2px solid transparent;
+    /* maybe inset style */
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: var(--port-text);
+    flex-grow: 1;
+    margin-left: 1rem;
+    text-align: center;
+    opacity: 0.9;
+}
+
+.browser-body {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.browser-image-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-bottom: 3px solid var(--port-border);
+    overflow: hidden;
+    position: relative;
+}
+
+.browser-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.browser-card:hover .browser-image {
+    transform: scale(1.05);
+}
+
+.browser-content {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-title {
+    font-weight: 800;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.project-desc {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+/* Tags */
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.project-tag {
+    background-color: var(--highlight-cyan);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border: 2px solid var(--port-border);
+    box-shadow: 2px 2px 0 0 var(--port-shadow);
+    transform: rotate(-1deg);
+}
+
+.project-tag:nth-child(even) {
+    background-color: var(--highlight-yellow);
+    transform: rotate(1deg);
+}
+
+/* Actions */
+.project-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.project-btn {
+    flex: 1;
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 3px solid var(--port-border);
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--highlight-green);
+    color: #000;
+    box-shadow: 3px 3px 0 0 var(--port-shadow);
+}
+
+.btn-primary:hover {
+    background-color: #8be029;
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 0 var(--port-shadow);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--port-text);
+    box-shadow: 3px 3px 0 0 var(--port-shadow);
+}
+
+.btn-outline:hover {
+    background-color: var(--port-text);
+    color: var(--port-bg);
+}
+
+/* View All Projects Button (Hero Style) */
+.portfolio-btn-view-all {
+    background-color: var(--highlight-yellow);
+    color: #000;
+    border: 3px solid var(--port-border);
+    box-shadow: 4px 4px 0 0 var(--port-shadow);
+    padding: 1rem 2rem;
+    font-weight: 800;
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.portfolio-btn-view-all:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0 0 var(--port-shadow);
+}
+
+.portfolio-btn-container {
+    margin-top: 6rem;
+    /* Ensures a significantly large gap using standard CSS */
+    text-align: left;
+}
+
+/* --- Qualifications Neo Brutalism --- */
+.qual-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.qual-header {
+    border: 3px solid var(--port-border);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0 0 var(--port-shadow);
+}
+
+/* Color Variants for Header */
+.qual-header.yellow {
+    background-color: var(--highlight-yellow);
+}
+
+.qual-header.cyan {
+    background-color: var(--highlight-cyan);
+}
+
+.qual-header.pink {
+    background-color: var(--highlight-pink);
+}
+
+.qual-header.green {
+    background-color: var(--highlight-green);
+}
+
+.qual-card {
+    border: 3px solid var(--port-border);
+    background-color: var(--port-card-bg);
+    padding: 2rem;
+    min-height: 300px;
+    border-radius: 8px;
+    box-shadow: 8px 8px 0 0 var(--port-shadow);
+}
+
+.qual-pill {
+    display: inline-block;
+    border: 2px solid var(--port-border);
+    padding: 0.25rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    box-shadow: 2px 2px 0 0 var(--port-shadow);
+    color: #000;
+}
+
+/* Pill Colors */
+.qual-pill.yellow {
+    background-color: var(--highlight-yellow);
+}
+
+.qual-pill.cyan {
+    background-color: var(--highlight-cyan);
+}
+
+.qual-pill.pink {
+    background-color: var(--highlight-pink);
+}
+
+.qual-pill.green {
+    background-color: var(--highlight-green);
+}
+
+.qual-border-left {
+    border-left: 3px solid var(--port-border);
+    padding-left: 1rem;
+}
+
+.qual-border-left.cyan {
+    border-color: var(--highlight-cyan);
+}
+
+.qual-border-left.pink {
+    border-color: var(--highlight-pink);
+}
+
+.qual-border-left.yellow {
+    border-color: var(--highlight-yellow);
+}
+
+/* =========================================
+   6. RESPONSIVE
+   ========================================= */
+
+@media (max-width: 767px) {
+    .portfolio-tabs {
+        flex-direction: column;
+        height: auto;
+        align-items: stretch;
+        padding-left: 0;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        overflow: visible;
+        /* Disable scroll */
+    }
+
+    .portfolio-tab {
+        border-radius: 8px;
+        border-bottom: 3px solid var(--port-border);
+        /* Full border */
+        text-align: center;
+        padding: 1rem;
+        width: 100%;
+        bottom: 0;
+    }
+
+    .portfolio-tab.active {
+        transform: translate(-2px, -2px);
+        box-shadow: 4px 4px 0 0 var(--port-shadow);
+        border-bottom: 3px solid var(--port-border);
+        /* Keep border */
+        padding-bottom: 1rem;
+        z-index: 1;
+    }
+
+    .portfolio-content {
+        border-radius: 12px;
+        /* Fix corner since tabs overlap is gone */
+        padding: 1.5rem;
+    }
+}

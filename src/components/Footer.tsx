@@ -1,4 +1,6 @@
 import { Heart, Coffee } from "lucide-react";
+import logo from "../assets/logo.png";
+import "./styles/FooterBrutalist.css";
 
 export function Footer() {
   const scrollToSection = (id: string) => {
@@ -8,34 +10,34 @@ export function Footer() {
     }
   };
 
-  const navLinks = ["Home", "About", "Skills", "Experience", "Projects", "Services", "Contact"];
+  const navLinks = ["Home", "About", "Portofolio", "Contact"];
 
   return (
-    <footer className="bg-gradient-to-br from-[#0f0f1a] to-[#1a1a2e] text-white relative overflow-hidden">
-      {/* Gradient accent line */}
-      <div className="h-1 bg-gradient-to-r from-[#6C63FF] via-[#00C6FF] to-[#6C63FF]" />
-      
-      <div className="max-w-7xl mx-auto px-6 lg:px-20 py-16">
+    <footer className="footer-section">
+      <div className="max-w-7xl mx-auto px-6 lg:px-20">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           {/* Brand */}
-          <div>
-            <h3 className="text-2xl mb-4">
-              Fachri <span className="bg-gradient-to-r from-[#6C63FF] to-[#00C6FF] bg-clip-text text-transparent">Azka</span>
-            </h3>
-            <p className="text-white/60 text-sm leading-relaxed">
+          <div className="footer-brand-container">
+            <div className="flex items-center gap-4">
+              <img src={logo} alt="Fachri Azka Logo" className="footer-logo-img" />
+              <h3 className="text-2xl font-black uppercase tracking-tighter text-black dark:text-white">
+                Fachri Azka
+              </h3>
+            </div>
+            <p className="text-sm leading-relaxed font-bold opacity-70">
               Fullstack Developer & UI/UX Designer crafting beautiful digital experiences with clean code and creative design.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="mb-4">Quick Links</h4>
-            <div className="grid grid-cols-2 gap-2">
+            <h4 className="footer-heading">Quick Links</h4>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
               {navLinks.map((link) => (
                 <button
                   key={link}
                   onClick={() => scrollToSection(link.toLowerCase())}
-                  className="text-left text-white/60 hover:text-[#6C63FF] transition-colors duration-200 text-sm"
+                  className="footer-link text-left"
                 >
                   {link}
                 </button>
@@ -45,13 +47,13 @@ export function Footer() {
 
           {/* Call to Action */}
           <div>
-            <h4 className="mb-4">Let's Collaborate</h4>
-            <p className="text-white/60 text-sm mb-4 leading-relaxed">
+            <h4 className="footer-heading">Let's Collaborate</h4>
+            <p className="text-sm mb-6 font-bold opacity-70">
               Have an exciting project? Let's turn your ideas into reality together!
             </p>
             <button
               onClick={() => scrollToSection("contact")}
-              className="px-6 py-3 bg-gradient-to-r from-[#6C63FF] to-[#00C6FF] text-white rounded-2xl hover:shadow-lg hover:shadow-[#6C63FF]/30 transition-all duration-300 hover:scale-105 text-sm"
+              className="footer-cta-btn"
             >
               Get In Touch
             </button>
@@ -59,23 +61,19 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-white/60">
-            © 2025 Fachri Azka. All rights reserved.
+        <div className="footer-bottom">
+          <p>
+            © 2026 Fachri Azka. All rights reserved.
           </p>
-          
-          <div className="flex items-center gap-2 text-sm text-white/60">
+
+          <div className="flex items-center gap-2">
             <span>Crafted with</span>
-            <Heart className="w-4 h-4 text-[#6C63FF] animate-pulse" fill="currentColor" />
+            <Heart className="w-5 h-5 footer-heart" fill="currentColor" />
             <span>and</span>
-            <Coffee className="w-4 h-4 text-[#FFC857]" />
+            <Coffee className="w-5 h-5 text-black dark:text-white" />
           </div>
         </div>
       </div>
-
-      {/* Decorative elements */}
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#6C63FF]/5 rounded-full blur-3xl" />
-      <div className="absolute top-0 right-0 w-64 h-64 bg-[#00C6FF]/5 rounded-full blur-3xl" />
     </footer>
   );
 }
