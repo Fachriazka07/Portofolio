@@ -43,6 +43,8 @@
     padding: 6rem 1.5rem;
     background-color: var(--about-bg);
     color: var(--about-text);
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
     /* Grid Pattern (Same as Hero for consistency) */
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),

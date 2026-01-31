@@ -207,6 +207,12 @@
   visibility: visible;
 }
 
+/* Dark mode - blue drawer background */
+.dark .mobile-drawer {
+  background-color: #22D3EE;
+  /* Cyan blue that blends with white text */
+}
+
 .drawer-backdrop {
   position: fixed;
   inset: 0;

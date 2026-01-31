@@ -1,0 +1,371 @@
+/* NotFound.css - Neo Brutalism 404 Page */
+
+/* =========================================
+   1. THEME VARIABLES
+   ========================================= */
+.notfound-section {
+    --nf-bg: #FFFEF0;
+    --nf-text: #000000;
+    --nf-card-bg: #FFFFFF;
+    --nf-border: #000000;
+    --nf-shadow: #000000;
+
+    /* Highlight Colors */
+    --highlight-yellow: #FFD700;
+    --highlight-cyan: #22D3EE;
+    --highlight-pink: #FF6B6B;
+    --highlight-green: #A3E635;
+}
+
+/* Dark Mode */
+.dark .notfound-section {
+    --nf-bg: #121212;
+    --nf-text: #FFFFFF;
+    --nf-card-bg: #1a1a1a;
+    --nf-border: #FFFFFF;
+    --nf-shadow: #FFFFFF;
+}
+
+/* =========================================
+   2. LAYOUT
+   ========================================= */
+.notfound-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: var(--nf-bg);
+    color: var(--nf-text);
+    position: relative;
+    overflow: hidden;
+
+    /* Grid Pattern */
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+    background-size: 50px 50px;
+}
+
+.dark .notfound-section {
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+}
+
+.notfound-container {
+    position: relative;
+    z-index: 10;
+    max-width: 600px;
+    width: 100%;
+}
+
+/* =========================================
+   3. FLOATING DECORATIONS
+   ========================================= */
+.notfound-decoration {
+    position: absolute;
+    border: 4px solid var(--nf-border);
+    z-index: 1;
+}
+
+.decoration-1 {
+    width: 100px;
+    height: 100px;
+    background-color: var(--highlight-yellow);
+    top: 10%;
+    left: 10%;
+    transform: rotate(15deg);
+    animation: float1 6s ease-in-out infinite;
+}
+
+.decoration-2 {
+    width: 80px;
+    height: 80px;
+    background-color: var(--highlight-cyan);
+    bottom: 15%;
+    right: 15%;
+    border-radius: 50%;
+    animation: float2 5s ease-in-out infinite;
+}
+
+.decoration-3 {
+    width: 60px;
+    height: 60px;
+    background-color: var(--highlight-pink);
+    top: 20%;
+    right: 20%;
+    transform: rotate(-10deg);
+    animation: float3 7s ease-in-out infinite;
+}
+
+@keyframes float1 {
+
+    0%,
+    100% {
+        transform: rotate(15deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(15deg) translateY(-20px);
+    }
+}
+
+@keyframes float2 {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-15px) scale(1.05);
+    }
+}
+
+@keyframes float3 {
+
+    0%,
+    100% {
+        transform: rotate(-10deg) translateX(0);
+    }
+
+    50% {
+        transform: rotate(-10deg) translateX(15px);
+    }
+}
+
+/* =========================================
+   4. MAIN CARD
+   ========================================= */
+.notfound-card {
+    background-color: var(--nf-card-bg);
+    border: 4px solid var(--nf-border);
+    box-shadow: 12px 12px 0 0 var(--nf-shadow);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.notfound-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 16px 16px 0 0 var(--nf-shadow);
+}
+
+/* Browser Header */
+.notfound-header {
+    background-color: var(--nf-border);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.browser-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+}
+
+.dot-red {
+    background-color: #FF6B6B;
+}
+
+.dot-yellow {
+    background-color: #FFD700;
+}
+
+.dot-green {
+    background-color: #A3E635;
+}
+
+.notfound-title-bar {
+    background-color: var(--nf-card-bg);
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: var(--nf-text);
+    flex-grow: 1;
+    margin-left: 1rem;
+    text-align: center;
+}
+
+/* Content Area */
+.notfound-content {
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+/* =========================================
+   5. SAD FACE :( 
+   ========================================= */
+.notfound-face {
+    font-size: 8rem;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 1rem;
+    color: var(--nf-text);
+    text-shadow: 6px 6px 0 var(--highlight-pink);
+    animation: shake 2s ease-in-out infinite;
+    user-select: none;
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(-2deg);
+    }
+
+    75% {
+        transform: rotate(2deg);
+    }
+}
+
+/* =========================================
+   6. ERROR BADGE
+   ========================================= */
+.notfound-badge {
+    display: inline-block;
+    background-color: var(--highlight-pink);
+    color: #000;
+    font-size: 1.5rem;
+    font-weight: 900;
+    padding: 0.5rem 2rem;
+    border: 4px solid var(--nf-border);
+    box-shadow: 4px 4px 0 0 var(--nf-shadow);
+    transform: rotate(-3deg);
+    margin-bottom: 1.5rem;
+}
+
+/* =========================================
+   7. TYPOGRAPHY
+   ========================================= */
+.notfound-heading {
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    letter-spacing: -1px;
+}
+
+.notfound-text {
+    font-size: 1.1rem;
+    opacity: 0.8;
+    margin-bottom: 2rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* =========================================
+   8. BUTTONS
+   ========================================= */
+.notfound-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.notfound-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    font-weight: 800;
+    font-size: 1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 4px solid var(--nf-border);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.notfound-btn.btn-primary {
+    background-color: var(--highlight-green);
+    color: #000;
+    box-shadow: 4px 4px 0 0 var(--nf-shadow);
+}
+
+.notfound-btn.btn-primary:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0 0 var(--nf-shadow);
+}
+
+.notfound-btn.btn-outline {
+    background-color: transparent;
+    color: var(--nf-text);
+    box-shadow: 4px 4px 0 0 var(--nf-shadow);
+}
+
+.notfound-btn.btn-outline:hover {
+    background-color: var(--nf-text);
+    color: var(--nf-bg);
+}
+
+/* =========================================
+   9. GLITCH BACKGROUND TEXT
+   ========================================= */
+.notfound-glitch {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20rem;
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--nf-border);
+    opacity: 0.05;
+    z-index: -1;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* =========================================
+   10. RESPONSIVE
+   ========================================= */
+@media (max-width: 640px) {
+    .notfound-face {
+        font-size: 5rem;
+        text-shadow: 4px 4px 0 var(--highlight-pink);
+    }
+
+    .notfound-heading {
+        font-size: 1.75rem;
+    }
+
+    .notfound-badge {
+        font-size: 1.25rem;
+        padding: 0.4rem 1.5rem;
+    }
+
+    .notfound-content {
+        padding: 2rem 1.5rem;
+    }
+
+    .notfound-actions {
+        flex-direction: column;
+    }
+
+    .notfound-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .notfound-glitch {
+        font-size: 10rem;
+    }
+
+    .decoration-1,
+    .decoration-2,
+    .decoration-3 {
+        display: none;
+    }
+}

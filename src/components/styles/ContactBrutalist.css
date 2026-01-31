@@ -5,6 +5,8 @@
     padding: 4rem 1.5rem;
     position: relative;
     border-top: 3px solid #000;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
 }
 
 .dark .contact-section {
@@ -151,6 +153,15 @@
     background-color: #1a1a1a;
     border-color: #fff;
     box-shadow: 6px 6px 0 0 #fff;
+    color: #fff;
+}
+
+/* Info card icons - black on light, white on dark */
+.contact-info-icon {
+    color: #000;
+}
+
+.dark .contact-info-icon {
     color: #fff;
 }
 

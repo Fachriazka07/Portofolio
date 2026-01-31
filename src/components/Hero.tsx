@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { MessageCircle, Code, Terminal, Save, Github, Linkedin, Instagram, Palette, Gamepad } from "lucide-react";
+import { Code, Palette, Gamepad } from "lucide-react";
+import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 // @ts-ignore
-import avatarImage from "../assets/avatar.jpg";
+import avatarImage from "../assets/avatar.webp";
 import "./styles/Hero.css";
 
 export function Hero() {
@@ -71,14 +72,16 @@ export function Hero() {
     <section ref={heroRef} id="home" className="hero-section">
       <div className="hero-grid">
 
-        {/* Left Column: Text Content */}
-        <div className="hero-col-text">
-
-          {/* Sticky Note Badge */}
-          <div ref={badgeRef} className="hero-badge">
+        {/* Badge - Separate for mobile ordering */}
+        <div ref={badgeRef} className="hero-col-badge">
+          <div className="hero-badge">
             <span className="text-2xl animate-bounce">👋</span>
             <span className="text-xl font-bold font-sans">Hi there!</span>
           </div>
+        </div>
+
+        {/* Left Column: Text Content */}
+        <div className="hero-col-text">
 
           {/* Main Headings */}
           <div className="w-full">
@@ -98,7 +101,7 @@ export function Hero() {
           </div>
 
           {/* Description */}
-          <p ref={descriptionRef} className="text-lg md:text-2xl max-w-3xl font-bold leading-relaxed opacity-0 font-sans mt-4 text-left">
+          <p ref={descriptionRef} className="hero-description text-lg md:text-2xl max-w-3xl font-bold leading-relaxed font-sans mt-4 text-left">
             "I build modern websites that blend design and functionality."
           </p>
 
@@ -129,13 +132,15 @@ export function Hero() {
           {/* Social Icons */}
           <div className="hero-social-container">
             {[
-              { icon: <Github className="w-6 h-6" />, label: "Github", link: "#" },
-              { icon: <Instagram className="w-6 h-6" />, label: "Instagram", link: "#" },
-              { icon: <Linkedin className="w-6 h-6" />, label: "LinkedIn", link: "#" }
+              { icon: <FaGithub className="w-6 h-6" />, label: "Github", link: "https://github.com/Fachriazka07" },
+              { icon: <FaInstagram className="w-6 h-6" />, label: "Instagram", link: "https://www.instagram.com/fachriazka07/" },
+              { icon: <FaLinkedin className="w-6 h-6" />, label: "LinkedIn", link: "https://www.linkedin.com/in/fachriazka-undefined-69553437a" }
             ].map((social, i) => (
               <a
                 key={i}
                 href={social.link}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hero-social-box"
                 aria-label={social.label}
               >

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Moon, Sun } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.webp";
 // @ts-ignore
 
 import "./Navbar.css";

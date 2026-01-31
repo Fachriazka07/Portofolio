@@ -1,8 +1,10 @@
 import { Heart, Coffee } from "lucide-react";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo.webp";
 import "./styles/FooterBrutalist.css";
+import { useLocation } from "react-router-dom";
 
 export function Footer() {
+  const location = useLocation();
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -16,7 +18,6 @@ export function Footer() {
     <footer className="footer-section">
       <div className="max-w-7xl mx-auto px-6 lg:px-20">
         <div className="grid md:grid-cols-3 gap-12 mb-12">
-          {/* Brand */}
           <div className="footer-brand-container">
             <div className="flex items-center gap-4">
               <img src={logo} alt="Fachri Azka Logo" className="footer-logo-img" />

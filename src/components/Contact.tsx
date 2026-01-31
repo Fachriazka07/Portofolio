@@ -1,4 +1,5 @@
-import { Github, Linkedin, Instagram, ExternalLink, Send, Mail, MapPin, Loader2, Check, AlertCircle } from "lucide-react";
+import { Send, Mail, MapPin, Loader2, Check, AlertCircle } from "lucide-react";
+import { FaGithub, FaInstagram, FaWhatsapp, FaLinkedin } from "react-icons/fa";
 import { useState, FormEvent, useEffect, useRef } from "react";
 import emailjs from '@emailjs/browser';
 import { gsap } from "gsap";
@@ -8,10 +9,10 @@ import "./styles/ContactBrutalist.css";
 gsap.registerPlugin(ScrollTrigger);
 
 const socialLinks = [
-  { icon: Github, label: "GitHub", href: "https://github.com/Fachriazka07", color: "#FFD700" }, // Yellow
-  { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/fachriazka07/", color: "#FF6B6B" }, // Pink/Red
-  { icon: ExternalLink, label: "Fiverr", href: "#", color: "#A3E635" }, // Lime Green
-  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/fachri-azka-1b3b3b2b0/", color: "#22D3EE" } // Cyan
+  { icon: FaGithub, label: "GitHub", href: "https://github.com/Fachriazka07", color: "#FFD700" }, // Yellow
+  { icon: FaInstagram, label: "Instagram", href: "https://www.instagram.com/fachriazka07/", color: "#FF6B6B" }, // Pink/Red
+  { icon: FaWhatsapp, label: "WhatsApp", href: "https://wa.me/6282113833833", color: "#A3E635" }, // Lime Green
+  { icon: FaLinkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/fachriazka-undefined-69553437a", color: "#22D3EE" } // Cyan
 ];
 
 export function Contact() {
@@ -176,7 +177,7 @@ export function Contact() {
 
             {/* Info Card */}
             <div className="contact-info-card">
-              <Mail size={32} strokeWidth={2.5} color="black" className="bg-[#FF6B6B] p-1 border-2 border-black" />
+              <Mail size={32} strokeWidth={2.5} className="contact-info-icon bg-[#FF6B6B] p-1 border-2 border-black dark:border-white" />
               <div>
                 <div className="font-bold text-sm uppercase opacity-60 text-black dark:text-gray-300">Email</div>
                 <div className="font-black text-lg text-black dark:text-white">fachriazka890@gmail.com</div>
@@ -184,7 +185,7 @@ export function Contact() {
             </div>
 
             <div className="contact-info-card">
-              <MapPin size={32} strokeWidth={2.5} color="black" className="bg-[#22D3EE] p-1 border-2 border-black" />
+              <MapPin size={32} strokeWidth={2.5} className="contact-info-icon bg-[#22D3EE] p-1 border-2 border-black dark:border-white" />
               <div>
                 <div className="font-bold text-sm uppercase opacity-60 text-black dark:text-gray-300">Location</div>
                 <div className="font-black text-lg text-black dark:text-white">Sumedang, Indonesia</div>

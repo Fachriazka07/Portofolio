@@ -40,6 +40,8 @@
     padding: 6rem 1.5rem;
     background-color: var(--port-bg);
     color: var(--port-text);
+    overflow-x: hidden;
+    /* Prevent horizontal scroll */
     /* Grid Pattern (Consistent with others) */
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),

@@ -59,7 +59,6 @@ export function PortfolioShowcase() {
       case "VS Code": return devIcon("vscode/vscode-original.svg"); // Changed to DevIcon
       case "Stripe": return simpleIcon("stripe");
       case "SQL": return <Briefcase className={iconClass} />;
-      case "Midtrans": return <Briefcase className={iconClass} />;
       default: return <Briefcase className={iconClass} />;
     }
   };
@@ -335,7 +334,6 @@ export function PortfolioShowcase() {
                 <div className="skill-body">
                   <span className="skill-tag">{getSkillIcon("Git")} Git</span>
                   <span className="skill-tag">{getSkillIcon("VS Code")} VS Code</span>
-                  <span className="skill-tag">{getSkillIcon("Midtrans")} Midtrans</span>
                   <span className="skill-tag">{getSkillIcon("Stripe")} Stripe</span>
                 </div>
               </div>

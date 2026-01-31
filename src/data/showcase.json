@@ -1,6 +1,46 @@
 [
   {
     "id": 1,
+    "judul": "Aether Maritime",
+    "paragraf": "Aether Maritime is a professional company profile website designed for a global shipping and logistics firm. It showcases the company's fleet, maritime services, and operational excellence through a clean, corporate design that establishes trust and reliability.",
+    "bannerImage": "/src/assets/bannerImage/bannerAethermaritime.webp",
+    "aspect": "landscape",
+    "techStack": [
+      "Next.js",
+      "Tailwind CSS"
+    ],
+    "linkGithub": "https://github.com/Fachriazka07/Aether-Maritime",
+    "category": "website"
+  },
+  {
+    "id": 2,
+    "judul": "LuxCamp",
+    "paragraf": "LuxCamp is a modern glamping booking website that brings the comfort of hotels into the beauty of nature. Users can easily explore cabins, check details, and book their perfect getaway.",
+    "bannerImage": "/src/assets/bannerImage/Luxcamp.webp",
+    "aspect": "landscape",
+    "techStack": [
+      "Next.js",
+      "Supabase",
+      "Tailwind CSS"
+    ],
+    "linkGithub": "https://github.com/Fachriazka07/LuxCamp",
+    "category": "website"
+  },
+  {
+    "id": 3,
+    "judul": "ZenDo",
+    "paragraf": "ZenDo is a minimalist productivity app that blends the Pomodoro technique with calming Lo-Fi aesthetics. Designed to help users enter a state of deep focus.",
+    "bannerImage": "/src/assets/bannerImage/bannerZendo.webp",
+    "aspect": "portrait",
+    "techStack": [
+      "Flutter",
+      "Dart"
+    ],
+    "linkGithub": "https://github.com/Fachriazka07/ZenDo",
+    "category": "mobile"
+  },
+  {
+    "id": 4,
     "judul": "Iphonify",
     "paragraf": "Iphonify is an e-commerce platform focused on selling Apple products with a clean and premium user interface.",
     "bannerImage": "/src/assets/bannerImage/bannerIphonify.webp",
@@ -12,44 +52,23 @@
       "MySQL",
       "Midtrans"
     ],
-    "linkGithub": "https://github.com/Fachriazka07/E-commerce-website-EasyBreezy",
+    "linkGithub": "https://github.com/Fachriazka07/Iphonify",
     "category": "website",
-    "demo": ""
+    "demo": "NotFound"
   },
   {
-    "id": 2,
-    "judul": "Cinema Ticket App",
-    "paragraf": "Desktop app for cinema ticket management built with C# and SQL Server.",
-    "bannerImage": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=800&fit=crop",
+    "id": 5,
+    "judul": "DIMSum",
+    "paragraf": "DIMSum (Data Indikator Makro Sumedang) is a digital pocketbook app designed to help BPS staff and officials access statistical indicators instantly. Replacing traditional printed books, this mobile solution ensures that crucial data is always accessible for meetings and field activities.",
+    "bannerImage": "/src/assets/bannerImage/bannerDIMSum.webp",
+    "aspect": "portrait",
     "techStack": [
-      "C#",
-      "SQL Server"
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Capacitor"
     ],
-    "linkGithub": "https://github.com/Fachriazka07/cinema-ticket",
-    "category": "desktop"
-  },
-  {
-    "id": 3,
-    "judul": "SaaS Dashboard Platform",
-    "paragraf": "Modern analytics dashboard with real-time charts and user management.",
-    "bannerImage": "https://images.unsplash.com/photo-1665470909939-959569b20021?w=1200&h=800&fit=crop",
-    "techStack": [
-      "React",
-      "TypeScript",
-      "Tailwind"
-    ],
-    "category": "mobile"
-  },
-  {
-    "id": 4,
-    "judul": "E-Commerce Website",
-    "paragraf": "Online store with payment integration and inventory management.",
-    "bannerImage": "https://images.unsplash.com/photo-1677214467820-ab069619bbb6?w=1200&h=800&fit=crop",
-    "techStack": [
-      "Laravel",
-      "MySQL",
-      "Stripe"
-    ],
+    "linkGithub": "https://github.com/Fachriazka07/BPS-DIMSum",
     "category": "mobile"
   }
 ]

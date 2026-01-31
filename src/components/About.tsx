@@ -57,21 +57,15 @@ export function About() {
             </p>
 
             <p className="mb-6">
-              Based in <span className="highlight highlight-pink mx-1">Sumedang, Indonesia</span>,
-              I am a <span className="highlight highlight-yellow mx-1 transform -rotate-1">Fullstack Developer</span>
-              obsessed with the intersection of logic and creativity. While many developers focus solely on functionality,
-              I strive to bridge the gap between robust engineering and <span className="highlight highlight-cyan mx-1 transform rotate-1">immersive UI/UX Design</span>.
+              I am a <span className="highlight highlight-yellow mx-1 transform -rotate-1">Software Engineering Student</span> focused on building digital products that actually work.
             </p>
 
             <p className="mb-6">
-              My toolkit includes <span className="highlight highlight-green mx-1">Next.js, React, and GSAP</span>,
-              allowing me to craft websites that are not just functional, but <span className="highlight highlight-purple mx-1 transform rotate-2">visually capturing</span>.
-              I treat every project as a challenge to push the boundaries of web performance. Whether it's a complex SaaS dashboard or a playful portfolio,
-              I apply strict software engineering standards to ensure the product is maintainable and lightning-fast.
+              In a world of heavy, over-animated websites, I choose <span className="highlight highlight-cyan mx-1 transform rotate-1">simplicity</span>. I believe a good user experience (UX) isn't about flashy effects—it's about <span className="highlight highlight-pink mx-1">respect</span>. Respect for the user's time, data, and device.
             </p>
 
             <p>
-              I believe in impact over complexity. My goal is to deliver digital solutions that are <span className="highlight highlight-yellow mx-1 transform -rotate-1">raw, honest, and effective</span>—cutting through the noise to deliver real value to users.
+              My goal is to craft websites that are <span className="highlight highlight-green mx-1">intuitive and accessible</span>. Whether on high-speed WiFi or a slow mobile connection, I ensure my code delivers a <span className="highlight highlight-purple mx-1 transform rotate-2">seamless experience</span> without sacrificing aesthetics.
             </p>
           </div>
         </div>
