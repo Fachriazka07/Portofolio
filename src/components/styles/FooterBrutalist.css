@@ -66,7 +66,7 @@
 
 .footer-link:hover {
     transform: translateX(5px);
-    color: var(--highlight-cyan, #22D3EE);
+    color: var(--hover-color, #22D3EE);
     text-decoration: underline;
     text-decoration-thickness: 3px;
 }

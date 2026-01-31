@@ -114,19 +114,12 @@ export function Hero() {
               Get in Touch
             </button>
 
-            <button
-              onClick={() => {
-                const link = document.createElement('a');
-                link.href = '/cv.pdf';
-                link.download = 'Fachri_CV.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-              }}
+            <a
+              href="/resume"
               className="hero-btn-secondary"
             >
               My Resume
-            </button>
+            </a>
           </div>
 
           {/* Social Icons */}

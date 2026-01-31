@@ -12,7 +12,7 @@ export function Footer() {
     }
   };
 
-  const navLinks = ["Home", "About", "Portofolio", "Contact"];
+
 
   return (
     <footer className="footer-section">
@@ -34,13 +34,19 @@ export function Footer() {
           <div>
             <h4 className="footer-heading">Quick Links</h4>
             <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-              {navLinks.map((link) => (
+              {[
+                { name: "Home", color: "#FFD700" },      // Yellow
+                { name: "About", color: "#22D3EE" },     // Blue/Cyan
+                { name: "Portofolio", color: "#A3E635" }, // Green
+                { name: "Contact", color: "#c084fc" }    // Purple
+              ].map((link) => (
                 <button
-                  key={link}
-                  onClick={() => scrollToSection(link.toLowerCase())}
+                  key={link.name}
+                  onClick={() => scrollToSection(link.name.toLowerCase())}
                   className="footer-link text-left"
+                  style={{ "--hover-color": link.color } as React.CSSProperties}
                 >
-                  {link}
+                  {link.name}
                 </button>
               ))}
             </div>
