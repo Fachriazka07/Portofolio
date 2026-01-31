@@ -65,7 +65,7 @@ export function About() {
             </p>
 
             <p>
-              My goal is to craft websites that are <span className="highlight highlight-green mx-1">intuitive and accessible</span>. Whether on high-speed WiFi or a slow mobile connection, I ensure my code delivers a <span className="highlight highlight-purple mx-1 transform rotate-2">seamless experience</span> without sacrificing aesthetics.
+              My goal is to craft websites that are <span className="highlight highlight-green mx-1">intuitive</span> and accessible. Whether on high-speed WiFi or a slow mobile connection, I ensure my code delivers a <span className="highlight highlight-purple mx-1 transform rotate-2">seamless</span> experience without sacrificing aesthetics.
             </p>
           </div>
         </div>
