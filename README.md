@@ -1,3 +1,1 @@
 Portofolio
-
-npm run dev

@@ -128,6 +128,8 @@
     z-index: 1;
     white-space: nowrap;
     /* Prevent breaking inside highlight if possible */
+    isolation: isolate;
+    /* Create new stacking context */
 }
 
 /* The colored background shape */

@@ -3,7 +3,7 @@
     "id": 1,
     "judul": "Aether Maritime",
     "paragraf": "Aether Maritime is a professional company profile website designed for a global shipping and logistics firm. It showcases the company's fleet, maritime services, and operational excellence through a clean, corporate design that establishes trust and reliability.",
-    "bannerImage": "/src/assets/bannerImage/bannerAethermaritime.webp",
+    "bannerImage": "/bannerImage/bannerAethermaritime.webp",
     "aspect": "landscape",
     "techStack": [
       "Next.js",
@@ -16,7 +16,7 @@
     "id": 2,
     "judul": "LuxCamp",
     "paragraf": "LuxCamp is a modern glamping booking website that brings the comfort of hotels into the beauty of nature. Users can easily explore cabins, check details, and book their perfect getaway.",
-    "bannerImage": "/src/assets/bannerImage/Luxcamp.webp",
+    "bannerImage": "/bannerImage/Luxcamp.webp",
     "aspect": "landscape",
     "techStack": [
       "Next.js",
@@ -30,7 +30,7 @@
     "id": 3,
     "judul": "ZenDo",
     "paragraf": "ZenDo is a minimalist productivity app that blends the Pomodoro technique with calming Lo-Fi aesthetics. Designed to help users enter a state of deep focus.",
-    "bannerImage": "/src/assets/bannerImage/bannerZendo.webp",
+    "bannerImage": "/bannerImage/bannerZendo.webp",
     "aspect": "portrait",
     "techStack": [
       "Flutter",
@@ -43,7 +43,7 @@
     "id": 4,
     "judul": "Iphonify",
     "paragraf": "Iphonify is an e-commerce platform focused on selling Apple products with a clean and premium user interface.",
-    "bannerImage": "/src/assets/bannerImage/bannerIphonify.webp",
+    "bannerImage": "/bannerImage/bannerIphonify.webp",
     "aspect": "portrait",
     "techStack": [
       "HTML",
@@ -60,7 +60,7 @@
     "id": 5,
     "judul": "DIMSum",
     "paragraf": "DIMSum (Data Indikator Makro Sumedang) is a digital pocketbook app designed to help BPS staff and officials access statistical indicators instantly. Replacing traditional printed books, this mobile solution ensures that crucial data is always accessible for meetings and field activities.",
-    "bannerImage": "/src/assets/bannerImage/bannerDIMSum.webp",
+    "bannerImage": "/bannerImage/bannerDimsum.webp",
     "aspect": "portrait",
     "techStack": [
       "HTML",
