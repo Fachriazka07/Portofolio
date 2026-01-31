@@ -55,35 +55,43 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar - Light mode */
+/* Custom scrollbar - Neo Brutalism Style */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 16px !important;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f8f9ff;
+  background: #FFFEF0 !important;
+  border-left: 3px solid #000 !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #6C63FF 0%, #00C6FF 100%);
-  border-radius: 5px;
+  background: #FFD700 !important;
+  /* Solid Yellow */
+  border: 3px solid #000 !important;
+  border-radius: 0 !important;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #5a51e6 0%, #00b3e6 100%);
+  background: #FFC000 !important;
+  /* Darker yellow on hover */
 }
 
 /* Custom scrollbar - Dark mode */
 .dark ::-webkit-scrollbar-track {
-  background: #0f0f1a;
+  background: #0f0f1a !important;
+  border-left: 3px solid #fff !important;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #6C63FF 0%, #00C6FF 100%);
+  background: #22D3EE !important;
+  /* Solid Cyan/Blue */
+  border: 3px solid #fff !important;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #8B82FF 0%, #00D4FF 100%);
+  background: #06B6D4 !important;
+  /* Darker cyan on hover */
 }
 
 @custom-variant dark (&:is(.dark *));

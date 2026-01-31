@@ -1,0 +1,156 @@
+/* CustomCursor.css - Neo Brutalism Style */
+
+/* =========================================
+   1. OUTER CIRCLE
+   ========================================= */
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    margin-left: -20px;
+    margin-top: -20px;
+    border: 3px solid #000;
+    border-radius: 0;
+    background-color: transparent;
+    pointer-events: none;
+    z-index: 99999;
+    opacity: 0;
+    transition:
+        width 0.2s ease,
+        height 0.2s ease,
+        margin 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        opacity 0.2s ease;
+    will-change: transform;
+}
+
+.custom-cursor.visible {
+    opacity: 1;
+}
+
+/* Dark Mode */
+.dark .custom-cursor {
+    border-color: #fff;
+}
+
+/* Hover State - Expand and fill */
+.custom-cursor.hovering {
+    width: 60px;
+    height: 60px;
+    margin-left: -30px;
+    margin-top: -30px;
+    background-color: rgba(255, 215, 0, 0.3);
+    /* Yellow */
+    border-color: #FFD700;
+}
+
+.dark .custom-cursor.hovering {
+    background-color: rgba(34, 211, 238, 0.3);
+    /* Cyan */
+    border-color: #22D3EE;
+}
+
+/* Click State - Shrink and rotate */
+.custom-cursor.clicking {
+    width: 30px;
+    height: 30px;
+    margin-left: -15px;
+    margin-top: -15px;
+    background-color: #FFD700;
+    transform: rotate(45deg);
+}
+
+.dark .custom-cursor.clicking {
+    background-color: #22D3EE;
+}
+
+/* =========================================
+   2. INNER DOT
+   ========================================= */
+.custom-cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    margin-top: -5px;
+    background-color: #000;
+    border-radius: 0;
+    pointer-events: none;
+    z-index: 100000;
+    opacity: 0;
+    transition:
+        width 0.15s ease,
+        height 0.15s ease,
+        margin 0.15s ease,
+        background-color 0.15s ease,
+        opacity 0.15s ease;
+    will-change: transform;
+}
+
+.custom-cursor-dot.visible {
+    opacity: 1;
+}
+
+/* Dark Mode */
+.dark .custom-cursor-dot {
+    background-color: #fff;
+}
+
+/* Hover State */
+.custom-cursor-dot.hovering {
+    width: 6px;
+    height: 6px;
+    margin-left: -3px;
+    margin-top: -3px;
+    background-color: #FFD700;
+}
+
+.dark .custom-cursor-dot.hovering {
+    background-color: #22D3EE;
+}
+
+/* Click State */
+.custom-cursor-dot.clicking {
+    width: 16px;
+    height: 16px;
+    margin-left: -8px;
+    margin-top: -8px;
+}
+
+/* =========================================
+   3. HIDE DEFAULT CURSOR GLOBALLY
+   ========================================= */
+@media (hover: hover) and (pointer: fine) {
+    * {
+        cursor: none !important;
+    }
+
+    a,
+    button,
+    input,
+    textarea,
+    select,
+    [role="button"] {
+        cursor: none !important;
+    }
+}
+
+/* =========================================
+   4. DISABLE ON TOUCH DEVICES
+   ========================================= */
+@media (hover: none) or (pointer: coarse) {
+
+    .custom-cursor,
+    .custom-cursor-dot {
+        display: none !important;
+    }
+
+    * {
+        cursor: auto !important;
+    }
+}

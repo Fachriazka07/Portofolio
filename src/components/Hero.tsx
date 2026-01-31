@@ -17,48 +17,56 @@ export function Hero() {
   useEffect(() => {
     const isMobile = typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches;
     if (isMobile) return;
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline();
+    const hasSeenIntro = sessionStorage.getItem("hasSeenIntro");
+    const isIntroPlaying = !hasSeenIntro && window.location.pathname === "/";
+    const animationDelay = isIntroPlaying ? 4000 : 0;
 
-      // Badge Animation
-      tl.fromTo(
-        badgeRef.current,
-        { y: -50, opacity: 0, scale: 0.8 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" }
-      );
+    const timeoutId = setTimeout(() => {
+      const ctx = gsap.context(() => {
+        const tl = gsap.timeline();
 
-      // Title Animation
-      tl.fromTo(
-        titleRef.current,
-        { y: 100, opacity: 0, rotationX: 90 },
-        { y: 0, opacity: 1, rotationX: 0, duration: 0.6, ease: "power3.out" },
-        "+=0.1"
-      );
-
-      // Subtitle Animation
-      tl.fromTo(
-        subtitleRef.current,
-        { y: 50, opacity: 0, scale: 0.9 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" },
-        "+=0.1"
-      );
-
-      // Description Animation
-      if (descriptionRef.current) {
-        gsap.to(descriptionRef.current, { opacity: 1, y: 0, duration: 0.5, delay: 0.2 });
-      }
-
-      // Buttons Animation
-      if (buttonsRef.current) {
-        gsap.fromTo(
-          buttonsRef.current.children,
-          { y: 20, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, delay: 0.4, ease: "power2.out" }
+        // Badge Animation
+        tl.fromTo(
+          badgeRef.current,
+          { y: -50, opacity: 0, scale: 0.8 },
+          { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.7)" }
         );
-      }
-    }, heroRef);
 
-    return () => ctx.revert();
+        // Title Animation
+        tl.fromTo(
+          titleRef.current,
+          { y: 100, opacity: 0, rotationX: 90 },
+          { y: 0, opacity: 1, rotationX: 0, duration: 0.6, ease: "power3.out" },
+          "+=0.1"
+        );
+
+        // Subtitle Animation
+        tl.fromTo(
+          subtitleRef.current,
+          { y: 50, opacity: 0, scale: 0.9 },
+          { y: 0, opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" },
+          "+=0.1"
+        );
+
+        // Description Animation
+        if (descriptionRef.current) {
+          gsap.to(descriptionRef.current, { opacity: 1, y: 0, duration: 0.5, delay: 0.2 });
+        }
+
+        // Buttons Animation
+        if (buttonsRef.current) {
+          gsap.fromTo(
+            buttonsRef.current.children,
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, delay: 0.4, ease: "power2.out" }
+          );
+        }
+      }, heroRef);
+
+      return () => ctx.revert();
+    }, animationDelay);
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const scrollToSection = (id: string) => {

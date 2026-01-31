@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/logo.webp";
 // @ts-ignore
 
-import "./Navbar.css";
+import "./styles/Navbar.css";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
