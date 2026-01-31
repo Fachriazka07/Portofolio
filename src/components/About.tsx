@@ -57,7 +57,7 @@ export function About() {
             </p>
 
             <p className="mb-6">
-              I am a <span className="highlight highlight-yellow mx-1 transform -rotate-1">Software Engineering Student</span> focused on building digital products that actually work.
+              I am a<br className="block md:hidden" /><span className="highlight highlight-yellow mx-1 transform -rotate-1">Software Engineering</span> Student focused on building digital products that actually work.
             </p>
 
             <p className="mb-6">

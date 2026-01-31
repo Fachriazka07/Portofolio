@@ -123,13 +123,14 @@
 
 .highlight {
     position: relative;
-    display: inline-block;
-    padding: 0 0.2em;
+    display: inline;
+    padding: 0.1em 0.2em;
     z-index: 1;
-    white-space: nowrap;
-    /* Prevent breaking inside highlight if possible */
+    /* Allow text wrapping on mobile */
     isolation: isolate;
     /* Create new stacking context */
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
 }
 
 /* The colored background shape */
