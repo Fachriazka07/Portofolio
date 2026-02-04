@@ -78,10 +78,6 @@ export function Qualifications() {
               <CardContent>
                 <ul className="timeline-list">
                   <li>
-                    <div className="item-title">Freelance Web Developer (Fiverr)</div>
-                    <div className="item-sub">2025 - Present</div>
-                  </li>
-                  <li>
                     <div className="item-title">PKL BPS Sumedang</div>
                     <div className="item-sub">July 2025 - October 2025</div>
                   </li>

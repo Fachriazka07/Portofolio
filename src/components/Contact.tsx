@@ -36,41 +36,177 @@ export function Contact() {
     }
   }, []);
 
-  // GSAP Animation
+  // GSAP Animation - Enhanced
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 70%",
+          end: "top 20%",
           toggleActions: "play none none reverse"
         }
       });
 
-      tl.from(".contact-title-badge", {
-        y: -30,
-        opacity: 0,
-        scale: 0.8,
-        duration: 0.5,
-        ease: "back.out(1.7)"
-      })
-        .from(".contact-heading", {
-          y: 20,
+      // 1. Title badge slams in with dramatic rotation
+      tl.fromTo(
+        ".contact-title-badge",
+        {
+          y: -80,
           opacity: 0,
-          duration: 0.5
-        }, "-=0.3")
-        .from(formRef.current, {
-          x: -50,
-          opacity: 0,
+          scale: 0.3,
+          rotation: -25
+        },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          rotation: 0,
+          duration: 0.7,
+          ease: "back.out(2.5)"
+        }
+      );
+
+      // 2. Heading reveals with clip-path
+      tl.fromTo(
+        ".contact-heading",
+        {
+          clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)",
+          opacity: 0
+        },
+        {
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+          opacity: 1,
           duration: 0.6,
-          ease: "power2.out"
-        }, "-=0.2")
-        .from(infoRef.current, {
-          x: 50,
+          ease: "power3.inOut"
+        },
+        "-=0.3"
+      );
+
+      // 3. Form card slides in from left with rotation
+      tl.fromTo(
+        formRef.current,
+        {
+          x: -100,
           opacity: 0,
-          duration: 0.6,
-          ease: "power2.out"
-        }, "<"); // Run parallel with form
+          rotationY: 15,
+          transformOrigin: "left center"
+        },
+        {
+          x: 0,
+          opacity: 1,
+          rotationY: 0,
+          duration: 0.7,
+          ease: "power3.out"
+        },
+        "-=0.4"
+      );
+
+      // 4. Form inputs stagger in
+      const formInputs = formRef.current?.querySelectorAll("input, textarea, button, label");
+      if (formInputs) {
+        tl.fromTo(
+          formInputs,
+          {
+            y: 20,
+            opacity: 0
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.4,
+            stagger: 0.08,
+            ease: "power2.out"
+          },
+          "-=0.3"
+        );
+      }
+
+      // 5. Info section slides in from right
+      tl.fromTo(
+        infoRef.current,
+        {
+          x: 100,
+          opacity: 0,
+          rotationY: -15,
+          transformOrigin: "right center"
+        },
+        {
+          x: 0,
+          opacity: 1,
+          rotationY: 0,
+          duration: 0.7,
+          ease: "power3.out"
+        },
+        "<" // Run parallel with form
+      );
+
+      // 6. Info cards pop in
+      const infoCards = infoRef.current?.querySelectorAll(".contact-info-card");
+      if (infoCards) {
+        tl.fromTo(
+          infoCards,
+          {
+            y: 30,
+            opacity: 0,
+            scale: 0.9
+          },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.4,
+            stagger: 0.1,
+            ease: "back.out(1.5)"
+          },
+          "-=0.4"
+        );
+      }
+
+      // 7. Social buttons bounce in with rotation
+      const socialBtns = infoRef.current?.querySelectorAll(".social-btn");
+      if (socialBtns) {
+        tl.fromTo(
+          socialBtns,
+          {
+            scale: 0,
+            opacity: 0,
+            rotation: -180
+          },
+          {
+            scale: 1,
+            opacity: 1,
+            rotation: 0,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: "elastic.out(1, 0.5)"
+          },
+          "-=0.2"
+        );
+      }
+
+      // Parallax effect on scroll
+      gsap.to(formRef.current, {
+        yPercent: -3,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1
+        }
+      });
+
+      gsap.to(infoRef.current, {
+        yPercent: -5,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.5
+        }
+      });
 
     }, sectionRef);
 

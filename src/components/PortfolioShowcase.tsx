@@ -69,37 +69,125 @@ export function PortfolioShowcase() {
     { name: "Tech Stack", color: "var(--highlight-pink)" }
   ];
 
-  // Initial Entrance Animation (Disabled for tabs - causing visibility issues)
+  // Initial Entrance Animation
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Only animate content, not tabs
-      gsap.from(contentRef.current, {
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 85%",
-          toggleActions: "play none none none"
-        },
-        y: 30,
-        opacity: 0,
-        duration: 0.6,
-        ease: "power2.out"
+          start: "top 80%",
+          toggleActions: "play none none reverse"
+        }
       });
+
+      // 1. Title badge slams in
+      tl.fromTo(
+        ".portfolio-title-badge",
+        {
+          y: -60,
+          opacity: 0,
+          scale: 0.5,
+          rotation: -15
+        },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          rotation: 2,
+          duration: 0.6,
+          ease: "back.out(2)"
+        }
+      );
+
+      // 2. Tabs stagger in with bounce
+      tl.fromTo(
+        ".portfolio-tab",
+        {
+          y: 30,
+          opacity: 0,
+          scale: 0.8
+        },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.4,
+          stagger: 0.1,
+          ease: "back.out(1.5)"
+        },
+        "-=0.3"
+      );
+
+      // 3. Content container reveals
+      tl.fromTo(
+        contentRef.current,
+        {
+          clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)",
+          opacity: 0
+        },
+        {
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+          opacity: 1,
+          duration: 0.6,
+          ease: "power3.out"
+        },
+        "-=0.2"
+      );
 
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
-  // Tab Switch Animation
+  // Tab Switch Animation - Enhanced
   useLayoutEffect(() => {
     if (!contentRef.current) return;
 
-    // Animate content children when tab changes
+    const children = contentRef.current.children;
+
+    // Kill any existing animations
+    gsap.killTweensOf(children);
+
+    // Animate content with 3D perspective
     gsap.fromTo(
-      contentRef.current.children,
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.4, stagger: 0.05, ease: "power2.out" }
+      children,
+      {
+        opacity: 0,
+        y: 40,
+        rotationX: -20,
+        transformOrigin: "top center"
+      },
+      {
+        opacity: 1,
+        y: 0,
+        rotationX: 0,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: "power3.out"
+      }
     );
+
+    // Animate cards inside with stagger
+    const cards = contentRef.current.querySelectorAll(".browser-card, .skill-card, .qual-column");
+    if (cards.length > 0) {
+      gsap.fromTo(
+        cards,
+        {
+          opacity: 0,
+          y: 30,
+          scale: 0.95
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.5,
+          stagger: 0.1,
+          ease: "back.out(1.2)",
+          delay: 0.2
+        }
+      );
+    }
   }, [activeTab]);
 
   return (
