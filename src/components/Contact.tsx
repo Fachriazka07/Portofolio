@@ -15,7 +15,7 @@ const socialLinks = [
   { icon: FaGithub, label: "GitHub", href: "https://github.com/Fachriazka07", color: "#FFD700" }, // Yellow
   { icon: FaInstagram, label: "Instagram", href: "https://www.instagram.com/fachriazka07/", color: "#FF6B6B" }, // Pink/Red
   { icon: FaWhatsapp, label: "WhatsApp", href: "https://wa.me/6282113833833", color: "#A3E635" }, // Lime Green
-  { icon: FaLinkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/fachriazka-undefined-69553437a", color: "#22D3EE" } // Cyan
+  { icon: FaLinkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/fachri-azka-69553437a/", color: "#22D3EE" } // Cyan
 ];
 
 export function Contact() {
@@ -402,8 +402,6 @@ export function Contact() {
         </div>
 
       </div>
-
-      {/* Neo Brutalist Popup/Modal - CSS Class Version */}
       {status.message && (
         <div className="neo-modal-overlay">
           <div className="neo-modal-card">
@@ -421,7 +419,7 @@ export function Contact() {
               onClick={() => setStatus({ type: null, message: '' })}
               className="neo-modal-btn"
             >
-              {status.type === 'success' ? 'OKAY COOL' : 'TRY AGAIN'}
+              {status.type === 'success' ? 'CLOSE' : 'TRY AGAIN'}
             </button>
 
           </div>

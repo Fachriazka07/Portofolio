@@ -267,7 +267,7 @@ export function Hero() {
             {[
               { icon: <FaGithub className="w-6 h-6" />, label: "Github", link: "https://github.com/Fachriazka07" },
               { icon: <FaInstagram className="w-6 h-6" />, label: "Instagram", link: "https://www.instagram.com/fachriazka07/" },
-              { icon: <FaLinkedin className="w-6 h-6" />, label: "LinkedIn", link: "https://www.linkedin.com/in/fachriazka-undefined-69553437a" }
+              { icon: <FaLinkedin className="w-6 h-6" />, label: "LinkedIn", link: "https://www.linkedin.com/in/fachri-azka-69553437a/" }
             ].map((social, i) => (
               <a
                 key={i}
