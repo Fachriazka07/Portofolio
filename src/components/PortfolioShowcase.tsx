@@ -50,10 +50,6 @@ export function PortfolioShowcase() {
           getQualifications(),
         ]);
 
-        console.log('[PortfolioShowcase] Fetched projects:', projectsData);
-        console.log('[PortfolioShowcase] Fetched skills:', skillsData);
-        console.log('[PortfolioShowcase] Fetched qualifications:', qualsData);
-
         if (projectsData && projectsData.length > 0) {
           setProjects(projectsData.slice(0, 3));
         } else {

@@ -30,12 +30,10 @@ export function Skills() {
     const fetchSkills = async () => {
       try {
         const data = await getSkills();
-        console.log('[Skills] Fetched from Supabase:', data);
 
         if (data && data.length > 0) {
           setSkills(data);
         } else {
-          console.warn('[Skills] No data from Supabase, using fallback');
           setSkills(FALLBACK_SKILLS);
         }
       } catch (err) {

@@ -40,13 +40,11 @@ export function Qualifications() {
     const fetchData = async () => {
       try {
         const data = await getQualifications();
-        console.log('[Qualifications] Fetched from Supabase:', data);
 
         if (data && data.length > 0) {
           setExperience(data.filter(q => q.type === 'experience'));
           setEducation(data.filter(q => q.type === 'education'));
         } else {
-          console.warn('[Qualifications] No data, using fallback');
           setExperience(FALLBACK_EXPERIENCE);
           setEducation(FALLBACK_EDUCATION);
         }

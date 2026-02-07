@@ -113,7 +113,6 @@ export function TechStack() {
     const fetchSkills = async () => {
       try {
         const data = await getSkills();
-        console.log('[TechStack] Fetched from Supabase:', data);
 
         if (data && data.length > 0) {
           // Group skills by category
