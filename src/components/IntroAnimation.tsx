@@ -6,160 +6,94 @@ interface IntroAnimationProps {
     onComplete: () => void;
 }
 
-// Array of fun emojis to cycle through
-const EMOJIS = ["😊", "🚀", "💻", "✨", "🎨", "⚡"];
-
-// Array of brutalist fonts to cycle through
-const FONTS = [
-    "'Verdana', sans-serif",
-    "'Arial Black', sans-serif",
-    "'Courier New', monospace",
-    "'Georgia', serif",
-    "'Comic Sans MS', cursive",
-    "'Trebuchet MS', sans-serif"
-];
-
 export function IntroAnimation({ onComplete }: IntroAnimationProps) {
     const containerRef = useRef<HTMLDivElement>(null);
-    const helloRef = useRef<HTMLDivElement>(null);
-    const helloTextRef = useRef<HTMLSpanElement>(null);
-    const emojiRef = useRef<HTMLSpanElement>(null);
-    const blockLeftRef = useRef<HTMLDivElement>(null);
-    const blockRightRef = useRef<HTMLDivElement>(null);
-    const [currentEmoji, setCurrentEmoji] = useState(EMOJIS[0]);
-    const [currentFont, setCurrentFont] = useState(FONTS[0]);
+    const counterContainerRef = useRef<HTMLDivElement>(null);
+    const progressRef = useRef<HTMLDivElement>(null);
+    const progressFillRef = useRef<HTMLDivElement>(null);
+    const textRevealRef = useRef<HTMLDivElement>(null);
+    const overlayRef = useRef<HTMLDivElement>(null);
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
-        let emojiIndex = 0;
-        let fontIndex = 0;
-
         const ctx = gsap.context(() => {
             const tl = gsap.timeline({
                 onComplete: () => {
-                    setTimeout(onComplete, 100);
+                    setTimeout(onComplete, 50);
                 }
             });
 
-            // Function to cycle emojis and fonts
-            const cycleEmojiAndFont = () => {
-                emojiIndex = (emojiIndex + 1) % EMOJIS.length;
-                fontIndex = (fontIndex + 1) % FONTS.length;
-                setCurrentEmoji(EMOJIS[emojiIndex]);
-                setCurrentFont(FONTS[fontIndex]);
-            };
-
-            // 1. Blocks slide in to cover screen
-            tl.set([blockLeftRef.current, blockRightRef.current], {
-                scaleX: 0,
-                transformOrigin: (i) => (i === 0 ? "left center" : "right center")
-            });
-
-            tl.to([blockLeftRef.current, blockRightRef.current], {
-                scaleX: 1,
-                duration: 0.4,
-                ease: "power2.inOut"
-            });
-
-            // 2. Hello text slams in
-            tl.fromTo(
-                helloRef.current,
-                { y: 100, opacity: 0, scale: 0.5 },
-                {
-                    y: 0,
-                    opacity: 1,
-                    scale: 1,
-                    duration: 0.6,
-                    ease: "back.out(1.7)"
+            // 1. Counter animation (0 to 100) - 2 seconds
+            tl.to({ val: 0 }, {
+                val: 100,
+                duration: 2,
+                ease: "power2.inOut",
+                onUpdate: function () {
+                    setCount(Math.round(this.targets()[0].val));
                 }
-            );
-
-            // 3. Emoji bounces in
-            tl.fromTo(
-                emojiRef.current,
-                { scale: 0, rotation: -45 },
-                {
-                    scale: 1,
-                    rotation: 0,
-                    duration: 0.5,
-                    ease: "elastic.out(1, 0.5)"
-                },
-                "-=0.3"
-            );
-
-            // 4. Cycle through emojis AND fonts with shake
-            for (let i = 0; i < EMOJIS.length; i++) {
-                // Shake emoji
-                tl.to(emojiRef.current, {
-                    scale: 0.8,
-                    rotation: -15,
-                    duration: 0.1,
-                    ease: "power2.in",
-                    onComplete: cycleEmojiAndFont
-                });
-
-                // Shake text too
-                tl.to(helloTextRef.current, {
-                    scale: 0.95,
-                    duration: 0.05,
-                    ease: "power2.in"
-                }, "<");
-
-                tl.to(emojiRef.current, {
-                    scale: 1.2,
-                    rotation: 15,
-                    duration: 0.15,
-                    ease: "elastic.out(1, 0.5)"
-                });
-
-                tl.to(helloTextRef.current, {
-                    scale: 1.05,
-                    duration: 0.1,
-                    ease: "elastic.out(1, 0.5)"
-                }, "<");
-
-                tl.to(emojiRef.current, {
-                    scale: 1,
-                    rotation: 0,
-                    duration: 0.1,
-                    ease: "power2.out"
-                });
-
-                tl.to(helloTextRef.current, {
-                    scale: 1,
-                    duration: 0.05,
-                    ease: "power2.out"
-                }, "<");
-            }
-
-            // 5. Short pause
-            tl.to({}, { duration: 0.2 });
-
-            // 6. Everything fades and slides up
-            tl.to(helloRef.current, {
-                y: -80,
-                opacity: 0,
-                duration: 0.4,
-                ease: "power2.in"
             });
 
-            // 7. Blocks slide apart
-            tl.to(blockLeftRef.current, {
-                x: "-100%",
-                duration: 0.5,
-                ease: "power2.inOut"
-            }, "-=0.2");
-
-            tl.to(blockRightRef.current, {
-                x: "100%",
-                duration: 0.5,
+            // 2. Progress bar fills simultaneously
+            tl.to(progressFillRef.current, {
+                width: "100%",
+                duration: 2,
                 ease: "power2.inOut"
             }, "<");
 
-            // 8. Container fades out
-            tl.to(containerRef.current, {
+            // 3. Brief pause at 100%
+            tl.to({}, { duration: 0.2 });
+
+            // 4. Counter + % scales up and fades TOGETHER
+            tl.to(counterContainerRef.current, {
+                scale: 1.2,
+                opacity: 0,
+                duration: 0.3,
+                ease: "power2.in"
+            });
+
+            // 5. Progress bar shrinks
+            tl.to(progressRef.current, {
+                scaleX: 0,
                 opacity: 0,
                 duration: 0.2,
-                ease: "power2.out"
+                ease: "power2.in"
+            }, "-=0.2");
+
+            // 6. Text reveal - name appears
+            tl.fromTo(textRevealRef.current,
+                {
+                    clipPath: "inset(0 100% 0 0)",
+                    opacity: 1
+                },
+                {
+                    clipPath: "inset(0 0% 0 0)",
+                    duration: 0.5,
+                    ease: "power3.inOut"
+                }
+            );
+
+            // 7. Hold with name visible
+            tl.to({}, { duration: 0.3 });
+
+            // 8. Text slides up and fades
+            tl.to(textRevealRef.current, {
+                y: -40,
+                opacity: 0,
+                duration: 0.3,
+                ease: "power2.in"
+            });
+
+            // 9. Overlay slides up to reveal page
+            tl.to(overlayRef.current, {
+                yPercent: -100,
+                duration: 0.5,
+                ease: "power3.inOut"
+            }, "-=0.1");
+
+            // 10. Container fades
+            tl.to(containerRef.current, {
+                opacity: 0,
+                duration: 0.1
             });
 
         }, containerRef);
@@ -168,31 +102,31 @@ export function IntroAnimation({ onComplete }: IntroAnimationProps) {
     }, [onComplete]);
 
     return (
-        <div ref={containerRef} className="intro-container">
-            {/* Left Block */}
-            <div ref={blockLeftRef} className="intro-block intro-block-left"></div>
-
-            {/* Right Block */}
-            <div ref={blockRightRef} className="intro-block intro-block-right"></div>
-
-            {/* Content */}
-            <div className="intro-content">
-                <div ref={helloRef} className="intro-hello">
-                    <span
-                        ref={helloTextRef}
-                        className="intro-hello-text"
-                        style={{ fontFamily: currentFont }}
-                    >
-                        Hello
+        <div ref={containerRef} className="preloader">
+            {/* Background Overlay */}
+            <div ref={overlayRef} className="preloader-overlay">
+                {/* Counter */}
+                <div ref={counterContainerRef} className="preloader-counter-container">
+                    <span className="preloader-counter">
+                        {count}
                     </span>
-                    <span ref={emojiRef} className="intro-hello-emoji">{currentEmoji}</span>
+                    <span className="preloader-percent">%</span>
+                </div>
+
+                {/* Progress Bar */}
+                <div ref={progressRef} className="preloader-progress">
+                    <div ref={progressFillRef} className="preloader-progress-fill"></div>
+                </div>
+
+                {/* Name Reveal */}
+                <div ref={textRevealRef} className="preloader-name">
+                    WELCOME TO MY PORTOFOLIO
                 </div>
             </div>
 
-            {/* Decorative Elements */}
-            <div className="intro-decoration intro-deco-1"></div>
-            <div className="intro-decoration intro-deco-2"></div>
-            <div className="intro-decoration intro-deco-3"></div>
+            {/* Decorative Lines */}
+            <div className="preloader-line preloader-line-1"></div>
+            <div className="preloader-line preloader-line-2"></div>
         </div>
     );
 }
