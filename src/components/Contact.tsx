@@ -223,8 +223,8 @@ export function Contact() {
     setStatus({ type: null, message: '' });
 
     try {
-      // Run all operations in parallel for better performance
-      await Promise.all([
+      // Run all operations in parallel - use allSettled to handle partial failures
+      const results = await Promise.allSettled([
         // 1. Save to Supabase database
         createContactMessage({
           name: formData.name,
@@ -252,10 +252,34 @@ export function Contact() {
         }),
       ]);
 
-      setStatus({ type: 'success', message: 'Message sent successfully!' });
-      setFormData({ name: "", email: "", message: "" });
-      // Track successful form submission
-      trackEvent('contact', 'form_submit', 'Contact Form Sent');
+      // Check if at least Email OR Telegram succeeded
+      const emailResult = results[1];
+      const telegramResult = results[2];
+      const supabaseResult = results[0];
+
+      // Log any failures for debugging
+      results.forEach((result, index) => {
+        if (result.status === 'rejected') {
+          const services = ['Supabase', 'EmailJS', 'Telegram'];
+          console.error(`${services[index]} failed:`, result.reason);
+        }
+      });
+
+      // Consider success if at least Email OR Telegram worked
+      if (emailResult.status === 'fulfilled' || telegramResult.status === 'fulfilled') {
+        setStatus({ type: 'success', message: 'Message sent successfully!' });
+        setFormData({ name: "", email: "", message: "" });
+        // Track successful form submission
+        trackEvent('contact', 'form_submit', 'Contact Form Sent');
+
+        // Warn if Supabase failed (message won't appear in dashboard)
+        if (supabaseResult.status === 'rejected') {
+          console.warn('Message sent but not saved to database. Check Supabase RLS policies.');
+        }
+      } else {
+        // All notification methods failed
+        throw new Error('All notification methods failed');
+      }
     } catch (error) {
       setStatus({ type: 'error', message: 'Failed to send message. Please try again.' });
       console.error('FAILED...', error);
