@@ -363,3 +363,76 @@ export const onAuthStateChange = (callback: (session: any) => void) => {
         callback(session);
     });
 };
+
+// ===================
+// OTP FUNCTIONS (2FA)
+// ===================
+
+/**
+ * Generate a 6-digit OTP and store it in the database
+ * OTP expires in 5 minutes
+ */
+export const generateAndStoreOTP = async (userId: string): Promise<string> => {
+    // Generate 6-digit random code
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Set expiry to 5 minutes from now
+    const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString();
+
+    // Delete any existing OTPs for this user first
+    await supabase
+        .from('admin_otp')
+        .delete()
+        .eq('user_id', userId);
+
+    // Insert new OTP
+    const { error } = await supabase
+        .from('admin_otp')
+        .insert({
+            user_id: userId,
+            otp_code: otpCode,
+            expires_at: expiresAt
+        });
+
+    if (error) throw error;
+    return otpCode;
+};
+
+/**
+ * Verify OTP code for a user
+ * Returns true if valid, throws error if invalid/expired
+ */
+export const verifyOTP = async (userId: string, code: string): Promise<boolean> => {
+    const { data, error } = await supabase
+        .from('admin_otp')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('otp_code', code)
+        .single();
+
+    if (error || !data) {
+        throw new Error('Invalid verification code');
+    }
+
+    // Check if expired
+    if (new Date(data.expires_at) < new Date()) {
+        // Delete expired OTP
+        await supabase.from('admin_otp').delete().eq('id', data.id);
+        throw new Error('Verification code has expired');
+    }
+
+    // OTP is valid - delete it (single use)
+    await supabase.from('admin_otp').delete().eq('id', data.id);
+
+    return true;
+};
+
+/**
+ * Clean up all expired OTPs (optional maintenance function)
+ */
+export const cleanupExpiredOTPs = async () => {
+    await supabase
+        .from('admin_otp')
+        .delete()
+        .lt('expires_at', new Date().toISOString());
+};

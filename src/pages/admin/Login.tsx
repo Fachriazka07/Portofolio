@@ -1,16 +1,26 @@
 import { useState, FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../lib/supabase';
-import { Lock, Mail, Loader2, AlertCircle, Eye, EyeOff, ArrowLeft, ShieldCheck } from 'lucide-react';
+import { supabase, generateAndStoreOTP, verifyOTP } from '../../lib/supabase';
+import { Lock, Mail, Loader2, AlertCircle, Eye, EyeOff, ArrowLeft, ShieldCheck, KeyRound } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import '../../components/admin/AdminStyles.css';
 
+// Initialize EmailJS
+emailjs.init("3smaLC9f1M-IRp8xe");
+
+type LoginStep = 'password' | 'otp';
+
 export function Login() {
+    const [step, setStep] = useState<LoginStep>('password');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [otpCode, setOtpCode] = useState('');
+    const [userId, setUserId] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const [initialCheck, setInitialCheck] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -24,12 +34,14 @@ export function Login() {
         checkSession();
     }, [navigate]);
 
-    const handleLogin = async (e: FormEvent) => {
+    // Step 1: Verify password and send OTP
+    const handlePasswordSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
 
         try {
+            // First verify credentials with Supabase
             const { data, error } = await supabase.auth.signInWithPassword({
                 email,
                 password,
@@ -37,8 +49,27 @@ export function Login() {
 
             if (error) throw error;
 
-            if (data.session) {
-                navigate('/cp-7x9k2m');
+            if (data.user) {
+                // Generate OTP FIRST while still authenticated
+                const otp = await generateAndStoreOTP(data.user.id);
+                setUserId(data.user.id);
+
+                // NOW sign out - we need OTP verification first
+                await supabase.auth.signOut();
+
+                // Send OTP via EmailJS
+                await emailjs.send(
+                    'service_ad5vyn1',
+                    'template_otp_admin', // You need to create this template in EmailJS
+                    {
+                        to_email: email,
+                        otp_code: otp,
+                        expires_in: '5 minutes'
+                    }
+                );
+
+                setStep('otp');
+                setSuccess('Verification code sent to your email!');
             }
         } catch (err: any) {
             console.error('Login error:', err);
@@ -52,6 +83,73 @@ export function Login() {
         } finally {
             setLoading(false);
         }
+    };
+
+    // Step 2: Verify OTP and complete login
+    const handleOTPSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+        setSuccess(null);
+
+        try {
+            if (!userId) throw new Error('Session expired. Please try again.');
+
+            // Verify OTP
+            await verifyOTP(userId, otpCode);
+
+            // OTP is valid - now actually sign in
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
+
+            if (error) throw error;
+
+            if (data.session) {
+                navigate('/cp-7x9k2m');
+            }
+        } catch (err: any) {
+            console.error('OTP verification error:', err);
+            setError(err.message || 'Invalid verification code');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Resend OTP
+    const handleResendOTP = async () => {
+        if (!userId) return;
+        setLoading(true);
+        setError(null);
+
+        try {
+            const otp = await generateAndStoreOTP(userId);
+
+            await emailjs.send(
+                'service_ad5vyn1',
+                'template_otp_admin',
+                {
+                    to_email: email,
+                    otp_code: otp,
+                    expires_in: '5 minutes'
+                }
+            );
+
+            setSuccess('New verification code sent!');
+        } catch (err: any) {
+            setError('Failed to resend code. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Go back to password step
+    const handleBack = () => {
+        setStep('password');
+        setOtpCode('');
+        setError(null);
+        setSuccess(null);
     };
 
     if (initialCheck) {
@@ -83,11 +181,19 @@ export function Login() {
                     {/* Header */}
                     <div style={styles.header}>
                         <div style={styles.headerIcon}>
-                            <Lock size={28} strokeWidth={2.5} />
+                            {step === 'password' ? (
+                                <Lock size={28} strokeWidth={2.5} />
+                            ) : (
+                                <KeyRound size={28} strokeWidth={2.5} />
+                            )}
                         </div>
                         <div>
-                            <h1 style={styles.headerTitle}>Admin Access</h1>
-                            <p style={styles.headerSubtitle}>Secured Terminal</p>
+                            <h1 style={styles.headerTitle}>
+                                {step === 'password' ? 'Admin Access' : 'Verify Code'}
+                            </h1>
+                            <p style={styles.headerSubtitle}>
+                                {step === 'password' ? 'Secured Terminal' : 'Check your email'}
+                            </p>
                         </div>
                     </div>
 
@@ -100,78 +206,155 @@ export function Login() {
                             </div>
                         )}
 
-                        <form onSubmit={handleLogin}>
-                            {/* Email Field */}
-                            <div style={styles.formGroup}>
-                                <label style={styles.label}>
-                                    <Mail size={14} />
-                                    Email Address
-                                </label>
-                                <div style={styles.inputWrapper}>
-                                    <Mail size={20} style={styles.inputIcon} />
-                                    <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        style={styles.input}
-                                        placeholder="admin@example.com"
-                                        required
-                                    />
-                                </div>
+                        {success && (
+                            <div style={styles.successBox}>
+                                <ShieldCheck size={20} style={{ color: '#22C55E', flexShrink: 0 }} />
+                                <p style={styles.successText}>{success}</p>
                             </div>
+                        )}
 
-                            {/* Password Field */}
-                            <div style={styles.formGroup}>
-                                <label style={styles.label}>
-                                    <Lock size={14} />
-                                    Password
-                                </label>
-                                <div style={styles.inputWrapper}>
-                                    <Lock size={20} style={styles.inputIcon} />
-                                    <input
-                                        type={showPassword ? "text" : "password"}
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        style={{ ...styles.input, paddingRight: '3.5rem' }}
-                                        placeholder="••••••••"
-                                        required
-                                    />
+                        {step === 'password' ? (
+                            // STEP 1: Password Form
+                            <form onSubmit={handlePasswordSubmit}>
+                                {/* Email Field */}
+                                <div style={styles.formGroup}>
+                                    <label style={styles.label}>
+                                        <Mail size={14} />
+                                        Email Address
+                                    </label>
+                                    <div style={styles.inputWrapper}>
+                                        <Mail size={20} style={styles.inputIcon} />
+                                        <input
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            style={styles.input}
+                                            placeholder="admin@example.com"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Password Field */}
+                                <div style={styles.formGroup}>
+                                    <label style={styles.label}>
+                                        <Lock size={14} />
+                                        Password
+                                    </label>
+                                    <div style={styles.inputWrapper}>
+                                        <Lock size={20} style={styles.inputIcon} />
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            style={{ ...styles.input, paddingRight: '3.5rem' }}
+                                            placeholder="••••••••"
+                                            required
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            style={styles.eyeButton}
+                                        >
+                                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Submit Button */}
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="btn btn-primary w-full justify-center py-4 text-xl font-black uppercase tracking-widest shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cyan-400 active:scale-95 transition-all duration-200"
+                                >
+                                    {loading ? (
+                                        <>
+                                            <Loader2 size={24} className="animate-spin" />
+                                            <span>Verifying...</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <span>Continue</span>
+                                        </>
+                                    )}
+                                </button>
+
+                                {/* Footer */}
+                                <div style={styles.footer}>
+                                    <a href="/" style={styles.backLink}>
+                                        <ArrowLeft size={16} />
+                                        Back to Site
+                                    </a>
+                                </div>
+                            </form>
+                        ) : (
+                            // STEP 2: OTP Verification Form
+                            <form onSubmit={handleOTPSubmit}>
+                                <p style={styles.otpDescription}>
+                                    Enter the 6-digit verification code sent to <strong>{email}</strong>
+                                </p>
+
+                                {/* OTP Field */}
+                                <div style={styles.formGroup}>
+                                    <label style={styles.label}>
+                                        <KeyRound size={14} />
+                                        Verification Code
+                                    </label>
+                                    <div style={styles.inputWrapper}>
+                                        <KeyRound size={20} style={styles.inputIcon} />
+                                        <input
+                                            type="text"
+                                            value={otpCode}
+                                            onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                                            style={{ ...styles.input, letterSpacing: '0.5em', textAlign: 'center', fontSize: '1.5rem' }}
+                                            placeholder="000000"
+                                            maxLength={6}
+                                            required
+                                            autoFocus
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Submit Button */}
+                                <button
+                                    type="submit"
+                                    disabled={loading || otpCode.length !== 6}
+                                    className="btn btn-primary w-full justify-center py-4 text-xl font-black uppercase tracking-widest shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cyan-400 active:scale-95 transition-all duration-200"
+                                >
+                                    {loading ? (
+                                        <>
+                                            <Loader2 size={24} className="animate-spin" />
+                                            <span>Verifying...</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <ShieldCheck size={24} />
+                                            <span>Verify & Login</span>
+                                        </>
+                                    )}
+                                </button>
+
+                                {/* Resend & Back */}
+                                <div style={styles.otpActions}>
                                     <button
                                         type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                        style={styles.eyeButton}
+                                        onClick={handleResendOTP}
+                                        disabled={loading}
+                                        style={styles.resendButton}
                                     >
-                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                        Resend Code
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={handleBack}
+                                        style={styles.backButton}
+                                    >
+                                        <ArrowLeft size={16} />
+                                        Back
                                     </button>
                                 </div>
-                            </div>
-
-                            {/* Submit Button */}
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                className="btn btn-primary w-full justify-center py-4 text-xl font-black uppercase tracking-widest shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 hover:bg-cyan-400 active:scale-95 transition-all duration-200"
-                            >
-                                {loading ? (
-                                    <>
-                                        <Loader2 size={24} className="animate-spin" />
-                                        <span>Verifying...</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <span>Authorize</span>
-                                    </>
-                                )}
-                            </button>
-
-                            {/* Footer */}
-                            <div style={styles.footer}>
-                                <a href="/" style={styles.backLink}>
-                                    <ArrowLeft size={16} />
-                                    Back to Site
-                                </a>
-                            </div>
-                        </form>
+                            </form>
+                        )}
                     </div>
                 </div>
             </div>
@@ -318,6 +501,21 @@ const styles: { [key: string]: React.CSSProperties } = {
         color: '#B91C1C',
         margin: 0
     },
+    successBox: {
+        background: '#DCFCE7',
+        border: '3px solid #22C55E',
+        padding: '1rem',
+        marginBottom: '1.5rem',
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: '0.75rem'
+    },
+    successText: {
+        fontWeight: 700,
+        fontSize: '0.9rem',
+        color: '#15803D',
+        margin: 0
+    },
     formGroup: {
         marginBottom: '1.5rem'
     },
@@ -369,24 +567,6 @@ const styles: { [key: string]: React.CSSProperties } = {
         justifyContent: 'center',
         color: '#000'
     },
-    submitButton: {
-        width: '100%',
-        padding: '1rem 2rem',
-        fontSize: '1.1rem',
-        fontWeight: 900,
-        textTransform: 'uppercase',
-        letterSpacing: '0.1em',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '0.75rem',
-        background: '#FFD700',
-        color: '#000',
-        border: '3px solid #000',
-        boxShadow: '6px 6px 0 #000',
-        transition: 'all 0.15s ease',
-        marginTop: '0.5rem'
-    },
     footer: {
         display: 'flex',
         alignItems: 'center',
@@ -405,12 +585,38 @@ const styles: { [key: string]: React.CSSProperties } = {
         textDecoration: 'none',
         transition: 'color 0.15s ease'
     },
-    version: {
-        fontSize: '0.7rem',
-        fontWeight: 800,
-        textTransform: 'uppercase',
-        letterSpacing: '0.1em',
-        opacity: 0.3,
-        color: '#000'
+    otpDescription: {
+        fontSize: '0.95rem',
+        color: '#444',
+        marginBottom: '1.5rem',
+        lineHeight: 1.5
+    },
+    otpActions: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginTop: '1.5rem',
+        paddingTop: '1.5rem',
+        borderTop: '2px dashed rgba(0,0,0,0.1)'
+    },
+    resendButton: {
+        background: 'transparent',
+        border: 'none',
+        color: '#6366F1',
+        fontWeight: 700,
+        fontSize: '0.9rem',
+        cursor: 'pointer',
+        textDecoration: 'underline'
+    },
+    backButton: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem',
+        background: 'transparent',
+        border: 'none',
+        color: '#000',
+        fontWeight: 700,
+        fontSize: '0.9rem',
+        cursor: 'pointer'
     }
 };
