@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
-Disallow: /api/
+Disallow: /cp-7x9k2m/
 
-Sitemap: https://your-domain.com/sitemap.xml
+# Sitemap location
+Sitemap: https://fachriazka.me/sitemap.xml
