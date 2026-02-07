@@ -316,14 +316,12 @@ export const getContactMessages = async () => {
 };
 
 export const createContactMessage = async (message: Omit<ContactMessage, 'id' | 'is_read' | 'created_at'>) => {
-    const { data, error } = await supabase
+    const { error } = await supabase
         .from('contact_messages')
-        .insert(message)
-        .select()
-        .single();
+        .insert(message);
 
     if (error) throw error;
-    return data as ContactMessage;
+    return { success: true };
 };
 
 export const deleteContactMessage = async (id: string) => {
