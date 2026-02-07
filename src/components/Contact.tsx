@@ -18,12 +18,19 @@ const socialLinks = [
   { icon: FaLinkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/fachri-azka-69553437a/", color: "#22D3EE" } // Cyan
 ];
 
+// Email regex - requires proper domain (e.g., .com, .id, .co.id)
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+// Rate limit: 2 minutes between submissions
+const RATE_LIMIT_MS = 2 * 60 * 1000;
+
 export function Contact() {
   const { trackEvent } = useAnalytics();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: ""
+    message: "",
+    website: "" // Honeypot field - should always be empty
   });
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
@@ -219,6 +226,27 @@ export function Contact() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    // Anti-bot: Honeypot check - if filled, it's a bot
+    if (formData.website) {
+      console.warn('Bot detected via honeypot');
+      return;
+    }
+
+    // Email validation with proper regex
+    if (!EMAIL_REGEX.test(formData.email)) {
+      setStatus({ type: 'error', message: 'Please enter a valid email address (e.g., name@example.com)' });
+      return;
+    }
+
+    // Rate limiting check
+    const lastSubmit = localStorage.getItem('lastContactSubmit');
+    if (lastSubmit && Date.now() - parseInt(lastSubmit) < RATE_LIMIT_MS) {
+      const remainingSeconds = Math.ceil((RATE_LIMIT_MS - (Date.now() - parseInt(lastSubmit))) / 1000);
+      setStatus({ type: 'error', message: `Please wait ${remainingSeconds} seconds before sending another message.` });
+      return;
+    }
+
     setIsLoading(true);
     setStatus({ type: null, message: '' });
 
@@ -268,7 +296,9 @@ export function Contact() {
       // Consider success if at least Email OR Telegram worked
       if (emailResult.status === 'fulfilled' || telegramResult.status === 'fulfilled') {
         setStatus({ type: 'success', message: 'Message sent successfully!' });
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({ name: "", email: "", message: "", website: "" });
+        // Save timestamp for rate limiting
+        localStorage.setItem('lastContactSubmit', Date.now().toString());
         // Track successful form submission
         trackEvent('contact', 'form_submit', 'Contact Form Sent');
 
@@ -317,6 +347,18 @@ export function Contact() {
                   className="contact-input"
                   placeholder="JOHN DOE"
                   required
+                />
+              </div>
+
+              {/* Honeypot field - hidden from users, bots will fill this */}
+              <div style={{ position: 'absolute', left: '-9999px', opacity: 0 }} aria-hidden="true">
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={formData.website}
+                  onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                 />
               </div>
               <div>

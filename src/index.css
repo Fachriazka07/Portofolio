@@ -167,6 +167,9 @@
 
   body {
     line-height: inherit;
+    user-select: none;
+    /* Disable text selection globally */
+    -webkit-user-select: none;
   }
 
   hr {
@@ -287,6 +290,9 @@
     opacity: 1;
     background-color: #0000;
     border-radius: 0;
+    user-select: text;
+    /* Allow input editing */
+    -webkit-user-select: text;
   }
 
   ::file-selector-button {
