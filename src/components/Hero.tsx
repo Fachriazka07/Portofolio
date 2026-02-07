@@ -239,13 +239,13 @@ export function Hero() {
             </h1>
             <div className="hero-subtitle-container">
               <h2 ref={subtitleRef} className="hero-subtitle">
-                Fullstack Developer & <span className="hero-highlight">UI/UX Designer</span>
+                Frontend Developer & <span className="hero-highlight">UI/UX Designer</span>
               </h2>
               <div className="hero-underline"></div>
             </div>
           </div>
           <p ref={descriptionRef} className="hero-description text-lg md:text-2xl max-w-3xl font-bold leading-relaxed font-sans mt-4 text-left">
-            "I build modern websites that blend design and functionality."
+            I build modern web experiences that prioritize both aesthetic excellence and uncompromising technical speed.
           </p>
           <div ref={buttonsRef} className="hero-btn-container">
             <button

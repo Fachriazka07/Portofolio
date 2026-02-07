@@ -25,9 +25,9 @@ export function Footer() {
                 Fachri Azka
               </h3>
             </div>
-            <p className="text-sm leading-relaxed font-bold opacity-70">
-              Fullstack Developer & UI/UX Designer crafting beautiful digital experiences with clean code and creative design.
-            </p>
+          <p className="footer-bio">
+            Frontend Developer & UI/UX Designer crafting beautiful digital experiences with clean code and creative design.
+          </p>
           </div>
 
           {/* Quick Links */}
