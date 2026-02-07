@@ -1,17 +1,70 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { getQualifications, type Qualification } from "../lib/supabase";
 import "./styles/Qualifications.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Fallback data jika Supabase error
+const FALLBACK_EXPERIENCE: Qualification[] = [
+  {
+    id: '1',
+    type: 'experience',
+    title: 'PKL BPS Sumedang',
+    subtitle: 'Industrial Placement',
+    start_date: '2025-07-01',
+    end_date: '2025-10-01',
+    description: null,
+    display_order: 1,
+    is_visible: true,
+    created_at: ''
+  },
+];
+
+const FALLBACK_EDUCATION: Qualification[] = [
+  { id: '2', type: 'education', title: 'SMKN 1 Sumedang', subtitle: 'Software Engineering', start_date: '2023-07-01', end_date: '2026-06-01', description: null, display_order: 1, is_visible: true, created_at: '' },
+  { id: '3', type: 'education', title: 'SMPN 2 Sumedang', subtitle: 'Middle School', start_date: '2020-07-01', end_date: '2023-06-01', description: null, display_order: 2, is_visible: true, created_at: '' },
+  { id: '4', type: 'education', title: 'SDN Sindangraja', subtitle: 'Elementary School', start_date: '2014-07-01', end_date: '2020-06-01', description: null, display_order: 3, is_visible: true, created_at: '' },
+];
+
 export function Qualifications() {
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
+  const [experience, setExperience] = useState<Qualification[]>([]);
+  const [education, setEducation] = useState<Qualification[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!leftRef.current || !rightRef.current) return;
+    const fetchData = async () => {
+      try {
+        const data = await getQualifications();
+        console.log('[Qualifications] Fetched from Supabase:', data);
+
+        if (data && data.length > 0) {
+          setExperience(data.filter(q => q.type === 'experience'));
+          setEducation(data.filter(q => q.type === 'education'));
+        } else {
+          console.warn('[Qualifications] No data, using fallback');
+          setExperience(FALLBACK_EXPERIENCE);
+          setEducation(FALLBACK_EDUCATION);
+        }
+      } catch (error) {
+        console.error('[Qualifications] Failed to fetch:', error);
+        setExperience(FALLBACK_EXPERIENCE);
+        setEducation(FALLBACK_EDUCATION);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (loading || !leftRef.current || !rightRef.current) return;
+
     gsap.from(leftRef.current, {
       x: -60,
       opacity: 0,
@@ -26,12 +79,16 @@ export function Qualifications() {
       ease: "power3.out",
       scrollTrigger: { trigger: rightRef.current, start: "top 80%" },
     });
-  }, []);
+  }, [loading]);
 
-  const bullet = "before:content-[''] before:w-2 before:h-2 before:bg-[#B6F500] before:rounded-full before:absolute before:left-0 before:top-2";
-  const line = "after:content-[''] after:absolute after:left-[3px] after:top-5 after:w-[2px] after:h-full after:bg-[#B6F500]/40";
+  const formatDateRange = (start: string | null, end: string | null) => {
+    if (!start) return '';
+    const startYear = new Date(start).getFullYear();
+    const endYear = end ? new Date(end).getFullYear() : 'Present';
+    return `${startYear} - ${endYear}`;
+  };
 
-  // Gradient icons (briefcase & cap) for titles
+  // Gradient icons
   const GradientBriefcaseIcon = ({ size = 20 }: { size?: number }) => (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -59,6 +116,22 @@ export function Qualifications() {
     </svg>
   );
 
+  if (loading) {
+    return (
+      <section id="qualifications" className="py-24 bg-white dark:bg-[#0f0f1a]">
+        <div className="max-w-6xl mx-auto px-6 lg:px-20">
+          <h2 className="text-4xl md:text-5xl mb-10 text-gray-900 dark:text-white">
+            <span className="bg-gradient-to-r from-[#6C63FF] to-[#00C6FF] bg-clip-text text-transparent">Qualifications</span>
+          </h2>
+          <div className="animate-pulse grid md:grid-cols-2 gap-8">
+            <div className="h-48 bg-gray-200 dark:bg-gray-800 rounded-xl"></div>
+            <div className="h-48 bg-gray-200 dark:bg-gray-800 rounded-xl"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="qualifications" className="py-24 bg-white dark:bg-[#0f0f1a]">
       <div className="max-w-6xl mx-auto px-6 lg:px-20">
@@ -77,10 +150,16 @@ export function Qualifications() {
               </CardHeader>
               <CardContent>
                 <ul className="timeline-list">
-                  <li>
-                    <div className="item-title">PKL BPS Sumedang</div>
-                    <div className="item-sub">July 2025 - October 2025</div>
-                  </li>
+                  {experience.length > 0 ? (
+                    experience.map((exp) => (
+                      <li key={exp.id}>
+                        <div className="item-title">{exp.title}</div>
+                        <div className="item-sub">{formatDateRange(exp.start_date, exp.end_date)}</div>
+                      </li>
+                    ))
+                  ) : (
+                    <li><div className="item-sub">No experience added yet</div></li>
+                  )}
                 </ul>
               </CardContent>
             </Card>
@@ -96,18 +175,16 @@ export function Qualifications() {
               </CardHeader>
               <CardContent>
                 <ul className="timeline-list">
-                  <li>
-                    <div className="item-title">SMKN 1 Sumedang — RPL / Software Engineering</div>
-                    <div className="item-sub">2023 - 2026</div>
-                  </li>
-                  <li>
-                    <div className="item-title">SMPN 2 Sumedang</div>
-                    <div className="item-sub">2020 - 2023</div>
-                  </li>
-                  <li>
-                    <div className="item-title">SDN Sindangraja</div>
-                    <div className="item-sub">2014 - 2020</div>
-                  </li>
+                  {education.length > 0 ? (
+                    education.map((edu) => (
+                      <li key={edu.id}>
+                        <div className="item-title">{edu.title}{edu.subtitle ? ` — ${edu.subtitle}` : ''}</div>
+                        <div className="item-sub">{formatDateRange(edu.start_date, edu.end_date)}</div>
+                      </li>
+                    ))
+                  ) : (
+                    <li><div className="item-sub">No education added yet</div></li>
+                  )}
                 </ul>
               </CardContent>
             </Card>

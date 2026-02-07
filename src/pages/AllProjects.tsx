@@ -1,52 +1,53 @@
 import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Search, Github, ExternalLink, SlidersHorizontal } from "lucide-react";
+import { ArrowLeft, Search, Github, ExternalLink, SlidersHorizontal, Image } from "lucide-react";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
+import { getProjects, type Project } from "../lib/supabase";
 // Import main Portfolio styles for the cards
 import "../components/styles/Portfolio.css";
 // Import page specific styles
 import "../components/styles/AllProjects.css";
 
-// @ts-ignore
-import showcaseData from "../data/showcase.json";
-
-interface Project {
-  id: number;
-  judul: string;
-  paragraf: string;
-  bannerImage: string;
-  techStack: string[];
-  linkGithub?: string;
-  demo?: string;
-  category: string;
-  aspect?: string;
-}
-
 export function AllProjects() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
 
-  // Scroll to top on mount
+  // Fetch projects from Supabase
   useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setLoading(true);
+        const data = await getProjects(); // Fetches only visible projects
+        setProjects(data);
+      } catch (error) {
+        console.error("Failed to fetch projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
     window.scrollTo(0, 0);
   }, []);
 
   // Extract unique categories from data + 'All'
   const categories = useMemo(() => {
-    const cats = new Set(showcaseData.map((p: Project) => p.category));
+    const cats = new Set(projects.map((p) => p.category));
     return ["All", ...Array.from(cats)];
-  }, []);
+  }, [projects]);
 
   // Filter Logic
   const filteredProjects = useMemo(() => {
-    return showcaseData.filter((project: Project) => {
+    return projects.filter((project) => {
       const matchesCategory = filter === "All" || project.category === filter;
-      const matchesSearch = project.judul.toLowerCase().includes(search.toLowerCase()) ||
-        project.techStack.some(t => t.toLowerCase().includes(search.toLowerCase()));
+      const matchesSearch = project.title.toLowerCase().includes(search.toLowerCase()) ||
+        project.tech_stack.some(t => t.toLowerCase().includes(search.toLowerCase()));
       return matchesCategory && matchesSearch;
     });
-  }, [filter, search]);
+  }, [projects, filter, search]);
 
   return (
     <div className="min-h-screen">
@@ -87,7 +88,7 @@ export function AllProjects() {
                 if (cat === "All") activeColor = "var(--highlight-green)";
                 else if (cat === "website") activeColor = "var(--highlight-cyan)";
                 else if (cat === "desktop") activeColor = "var(--highlight-yellow)";
-                else if (cat === "web") activeColor = "var(--highlight-pink)";
+                else if (cat === "mobile") activeColor = "var(--highlight-pink)";
 
                 return (
                   <button
@@ -104,9 +105,13 @@ export function AllProjects() {
           </div>
 
           {/* GRID */}
-          {filteredProjects.length > 0 ? (
+          {loading ? (
+            <div className="flex justify-center py-20">
+              <div className="w-10 h-10 border-4 border-gray-300 border-t-cyan-500 rounded-full animate-spin"></div>
+            </div>
+          ) : filteredProjects.length > 0 ? (
             <div className="archive-grid">
-              {filteredProjects.map((project: Project) => (
+              {filteredProjects.map((project) => (
                 // Reusing standard browser-card structure from Portfolio.css
                 <div key={project.id} className="browser-card">
                   {/* Browser Header */}
@@ -115,38 +120,47 @@ export function AllProjects() {
                     <div className="browser-dot dot-yellow" />
                     <div className="browser-dot dot-green" />
                     <div className="browser-title-bar">
-                      {project.category}://{project.judul.toLowerCase().replace(/\s/g, '')}
+                      {project.category}://{project.title.toLowerCase().replace(/\s/g, '')}
                     </div>
                   </div>
 
                   {/* Body */}
                   <div className="browser-body">
                     <div className="browser-image-container">
-                      <img
-                        src={project.bannerImage}
-                        alt={project.judul}
-                        className="browser-image"
-                      />
+                      {project.banner_image ? (
+                        <img
+                          src={project.banner_image}
+                          alt={project.title}
+                          className="browser-image"
+                          onError={(e) => {
+                            e.currentTarget.src = 'https://placehold.co/600x400/1a1a1a/cccccc?text=No+Image';
+                          }}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 text-gray-400">
+                          <Image size={48} />
+                        </div>
+                      )}
                     </div>
 
                     <div className="browser-content">
-                      <h3 className="project-title">{project.judul}</h3>
-                      <p className="project-desc line-clamp-3">{project.paragraf}</p>
+                      <h3 className="project-title">{project.title}</h3>
+                      <p className="project-desc line-clamp-3">{project.description}</p>
 
                       <div className="project-tags">
-                        {project.techStack.map((tag: string) => (
+                        {project.tech_stack.map((tag) => (
                           <span key={tag} className="project-tag">{tag}</span>
                         ))}
                       </div>
 
                       <div className="project-actions">
-                        {project.demo && (
-                          <a href={project.demo} target="_blank" rel="noreferrer" className="project-btn btn-primary">
+                        {project.demo_url && (
+                          <a href={project.demo_url} target="_blank" rel="noreferrer" className="project-btn btn-primary">
                             <ExternalLink size={18} /> Visit
                           </a>
                         )}
-                        {project.linkGithub && (
-                          <a href={project.linkGithub} target="_blank" rel="noreferrer" className="project-btn btn-outline">
+                        {project.github_url && (
+                          <a href={project.github_url} target="_blank" rel="noreferrer" className="project-btn btn-outline">
                             <Github size={18} /> Code
                           </a>
                         )}

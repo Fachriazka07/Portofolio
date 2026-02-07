@@ -32,7 +32,7 @@ export function NotFound() {
                         {/* Text */}
                         <h1 className="notfound-heading">Page Not Found</h1>
                         <p className="notfound-text">
-                            Oops! Halaman yang kamu cari tidak ada atau sudah dipindahkan.
+                            Oops! The page you are looking for does not exist or has been moved.
                         </p>
 
                         {/* Action Buttons */}

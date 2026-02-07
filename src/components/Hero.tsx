@@ -6,10 +6,12 @@ import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 // @ts-ignore
 import avatarImage from "../assets/avatar.webp";
 import "./styles/Hero.css";
+import { useAnalytics } from "../hooks/useAnalytics";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function Hero() {
+  const { trackEvent } = useAnalytics();
   const heroRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLHeadingElement>(null);
@@ -41,7 +43,6 @@ export function Hero() {
 
         // 2. Split the title into lines and animate each
         if (titleRef.current) {
-
           // Animate the whole title with a dramatic entrance
           tl.fromTo(
             titleRef.current,
@@ -205,8 +206,6 @@ export function Hero() {
           }
         });
 
-        // Note: Removed hero content fade out to prevent text disappearing on scroll back
-
       }, heroRef);
 
       return () => ctx.revert();
@@ -259,6 +258,7 @@ export function Hero() {
             <a
               href="/resume"
               className="hero-btn-secondary"
+              onClick={() => trackEvent('engagement', 'download_cv', 'Hero Section')}
             >
               My Resume
             </a>
@@ -276,6 +276,7 @@ export function Hero() {
                 rel="noopener noreferrer"
                 className="hero-social-box"
                 aria-label={social.label}
+                onClick={() => trackEvent('social', 'click_social', social.label)}
               >
                 {social.icon}
               </a>

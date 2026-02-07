@@ -1,9 +1,12 @@
-import { Send, Mail, MapPin, Loader2, Check, AlertCircle } from "lucide-react";
+import { Send, Mail, MapPin, Loader2 } from "lucide-react";
 import { FaGithub, FaInstagram, FaWhatsapp, FaLinkedin } from "react-icons/fa";
 import { useState, FormEvent, useEffect, useRef } from "react";
 import emailjs from '@emailjs/browser';
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { createContactMessage } from "../lib/supabase";
+import { sendTelegramNotification } from "../lib/telegram";
+import { useAnalytics } from "../hooks/useAnalytics";
 import "./styles/ContactBrutalist.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,6 +19,7 @@ const socialLinks = [
 ];
 
 export function Contact() {
+  const { trackEvent } = useAnalytics();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -219,19 +223,39 @@ export function Contact() {
     setStatus({ type: null, message: '' });
 
     try {
-      await emailjs.send(
-        'service_ad5vyn1',
-        'template_efqp0mm',
-        {
+      // Run all operations in parallel for better performance
+      await Promise.all([
+        // 1. Save to Supabase database
+        createContactMessage({
           name: formData.name,
           email: formData.email,
           message: formData.message,
-          date: new Date().toLocaleString()
-        }
-      );
+        }),
+
+        // 2. Send email via EmailJS
+        emailjs.send(
+          'service_ad5vyn1',
+          'template_efqp0mm',
+          {
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+            date: new Date().toLocaleString()
+          }
+        ),
+
+        // 3. Send Telegram notification
+        sendTelegramNotification({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      ]);
 
       setStatus({ type: 'success', message: 'Message sent successfully!' });
       setFormData({ name: "", email: "", message: "" });
+      // Track successful form submission
+      trackEvent('contact', 'form_submit', 'Contact Form Sent');
     } catch (error) {
       setStatus({ type: 'error', message: 'Failed to send message. Please try again.' });
       console.error('FAILED...', error);
@@ -340,6 +364,7 @@ export function Contact() {
                     rel="noopener noreferrer"
                     className="social-btn"
                     style={{ "--hover-bg": social.color } as React.CSSProperties}
+                    onClick={() => trackEvent('social', 'click_social', social.label)}
                   >
                     <Icon size={32} strokeWidth={2} />
                     <span>{social.label}</span>
