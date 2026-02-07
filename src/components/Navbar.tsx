@@ -192,9 +192,9 @@ export function Navbar() {
                 if (item === "Portofolio") {
                   if (location.pathname !== "/") {
                     navigate("/");
-                    setTimeout(() => scrollToSection("showcase"), 120);
+                    setTimeout(() => scrollToSection("portfolio"), 120);
                   } else {
-                    scrollToSection("showcase");
+                    scrollToSection("portfolio");
                   }
                 } else {
                   const target = item.toLowerCase();
