@@ -52,10 +52,9 @@ export default defineConfig({
   build: {
     target: 'esnext',
     outDir: 'dist',
-    // Remove console.log and console.warn in production
-    esbuild: {
-      drop: ['console', 'debugger'],
-    },
+  },
+  esbuild: {
+    drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : [],
   },
 
   server: {
