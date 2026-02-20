@@ -113,8 +113,8 @@ export function Contact() {
         "-=0.4"
       );
 
-      // 4. Form inputs stagger in
-      const formInputs = formRef.current?.querySelectorAll("input, textarea, button, label");
+      // 4. Form inputs stagger in (exclude button to prevent mobile tap issues)
+      const formInputs = formRef.current?.querySelectorAll("input:not([aria-hidden='true']), textarea, label");
       if (formInputs) {
         tl.fromTo(
           formInputs,
@@ -130,6 +130,25 @@ export function Contact() {
             ease: "power2.out"
           },
           "-=0.3"
+        );
+      }
+
+      // 4b. Submit button animates separately (ensures it's always clickable)
+      const submitBtn = formRef.current?.querySelector("button[type='submit']");
+      if (submitBtn) {
+        tl.fromTo(
+          submitBtn,
+          {
+            y: 15,
+            scale: 0.95
+          },
+          {
+            y: 0,
+            scale: 1,
+            duration: 0.4,
+            ease: "back.out(1.5)"
+          },
+          "-=0.2"
         );
       }
 
@@ -336,7 +355,7 @@ export function Contact() {
 
           {/* Left Column: Form */}
           <div ref={formRef} className="contact-form-card">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} noValidate style={{ touchAction: 'manipulation' }}>
               <div>
                 <label htmlFor="name" className="contact-label">Your Name</label>
                 <input
