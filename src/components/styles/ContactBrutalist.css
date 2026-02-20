@@ -136,15 +136,20 @@
     -webkit-user-select: none;
 }
 
-.contact-btn:hover:not(:disabled) {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0 0 #000;
-    background-color: var(--highlight-cyan, #00f0ff);
+/* Only apply hover transform on devices with a real pointer (mouse/trackpad) */
+@media (hover: hover) and (pointer: fine) {
+    .contact-btn:hover:not(:disabled) {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0 0 #000;
+        background-color: var(--highlight-cyan, #00f0ff);
+    }
 }
 
+/* Active state works on both mobile tap and desktop click */
 .contact-btn:active:not(:disabled) {
-    transform: translate(2px, 2px);
+    transform: translate(1px, 1px);
     box-shadow: 2px 2px 0 0 #000;
+    background-color: var(--highlight-cyan, #00f0ff);
 }
 
 .contact-btn:disabled {
